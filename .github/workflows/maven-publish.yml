@@ -12,9 +12,11 @@ on:
       version:
         description: "Release version"
         required: true
+        default: "0.0.1"
       nextVersion:
         description: "Next version"
         required: true
+        default: "0.0.2-SNAPSHOT"
 
 env:
   MAVEN_ARGS: -B -ntp
