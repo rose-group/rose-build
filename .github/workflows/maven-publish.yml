@@ -1,3 +1,5 @@
+# https://github.com/infinispan/infinispan/blob/15.2.1.Final/.github/workflows/tag.yml
+
 name: Maven Publish
 
 on:
@@ -46,7 +48,7 @@ jobs:
 
       - name: Set release version
         run: |
-          mvn -B versions:set -DprocessAllModules=true -DremoveSnapshot -DgenerateBackupPoms=false -DnewVersion=${{ github.event.inputs.version }}
+          mvn -B versions:set -DremoveSnapshot -DnewVersion=${{ github.event.inputs.version }} -DprocessAllModules=true -DgenerateBackupPoms=false 
           git commit --no-verify -a -m "[CI Skip] Releasing ${{ github.event.inputs.version }}"
 
       - name: Publish to Central
