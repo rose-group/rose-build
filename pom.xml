@@ -80,7 +80,7 @@
         <!-- sundrio-maven-plugin for java 8 -->
         <sundrio-maven-plugin.version>0.103.0</sundrio-maven-plugin.version>
 
-        <puppycrawl-tools-checkstyle.version>10.21.1</puppycrawl-tools-checkstyle.version>
+        <puppycrawl-tools-checkstyle.version>10.23.1</puppycrawl-tools-checkstyle.version>
 
         <!-- flatten-maven-plugin -->
         <flatten.dependency.mode>all</flatten.dependency.mode>
