@@ -50,7 +50,7 @@ jobs:
 
       - name: Set release version
         run: |
-          mvn -B versions:set -DremoveSnapshot -DnewVersion=${{ github.event.inputs.version }} -DprocessAllModules=true -DgenerateBackupPoms=false 
+          mvn -B versions:set -DprocessAllModules=true -DgenerateBackupPoms=false -DnewVersion=${{ github.event.inputs.version }}
           git commit --no-verify -a -m "[CI Skip] Releasing ${{ github.event.inputs.version }}"
 
       - name: Publish to Central
