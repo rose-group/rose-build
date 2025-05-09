@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rose-group</groupId>
   <artifactId>rose-build</artifactId>
-  <version>0.0.0.1</version>
+  <version>0.0.1</version>
   <packaging>pom</packaging>
   <name>Rose :: Build</name>
   <description>Rose Build Project</description>
@@ -37,12 +37,13 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <surefire.argLine>-Duser.language=en -Duser.country=en</surefire.argLine>
     <flatten.pomElements.repositories>remove</flatten.pomElements.repositories>
+    <maven-lombok-plugin.version>1.18.20.0</maven-lombok-plugin.version>
     <sundrio-maven-plugin.version>0.103.0</sundrio-maven-plugin.version>
     <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
-    <puppycrawl-tools-checkstyle.version>10.21.1</puppycrawl-tools-checkstyle.version>
+    <puppycrawl-tools-checkstyle.version>10.23.1</puppycrawl-tools-checkstyle.version>
     <flatten.pomElements.dependencies>resolve</flatten.pomElements.dependencies>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+    <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
     <flatten.mode>resolveCiFriendliesOnly</flatten.mode>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <updatePomFile>true</updatePomFile>
@@ -65,13 +66,14 @@
     <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
     <impsort-maven-plugin.version>1.6.2</impsort-maven-plugin.version>
     <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
+    <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
     <flatten.pomElements.properties>keep</flatten.pomElements.properties>
     <spotless-maven-plugin.version>2.22.0</spotless-maven-plugin.version>
     <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
     <disable.checks>true</disable.checks>
     <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
     <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-    <asciidoctor-maven-plugin.version>3.1.1</asciidoctor-maven-plugin.version>
+    <asciidoctor-maven-plugin.version>3.2.0</asciidoctor-maven-plugin.version>
     <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
     <jvm.argLine></jvm.argLine>
     <java.version>8</java.version>
