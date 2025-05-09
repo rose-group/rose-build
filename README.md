@@ -31,6 +31,7 @@ Rose Build supports the Maven project building on Java 8+ TLS and Java 17+ TLS.
 - [Maven Compiler Plugin](https://maven.apache.org/plugins/maven-compiler-plugin/)
 - [Maven Source Plugin](https://maven.apache.org/plugins/maven-source-plugin/)
 - [Flatten Maven Plugin](https://www.mojohaus.org/flatten-maven-plugin/)
+- [Git Commit Id Plugin](https://github.com/git-commit-id/git-commit-id-maven-plugin)
 
 #### 2.2.2 Profile-Specific Plugins
 
@@ -40,7 +41,6 @@ Rose Build supports the Maven project building on Java 8+ TLS and Java 17+ TLS.
 - [Maven Release Plugin](https://maven.apache.org/plugins/maven-release-plugin/)
 - [Maven Enforce Plugin](https://maven.apache.org/enforcer/maven-enforcer-plugin/)
 - [Maven GPG Plugin](https://maven.apache.org/plugins/maven-gpg-plugin/)
-- [Git Commit Id Plugin](https://github.com/git-commit-id/git-commit-id-maven-plugin)
 - [Central Publishing Maven Plugin](https://central.sonatype.org/register/central-portal/)
 
 ##### 2.2.2.2 Maven Profile `ci` Plugins

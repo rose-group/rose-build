@@ -592,6 +592,10 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
@@ -617,12 +621,12 @@
                         <artifactId>maven-gpg-plugin</artifactId>
                     </plugin>
                     <plugin>
-                        <groupId>pl.project13.maven</groupId>
-                        <artifactId>git-commit-id-plugin</artifactId>
-                    </plugin>
-                    <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.sundr</groupId>
+                        <artifactId>sundr-maven-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
@@ -709,7 +713,6 @@
                 </plugins>
             </build>
         </profile>
-
 
         <profile>
             <id>java8+</id>
