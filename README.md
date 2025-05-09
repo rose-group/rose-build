@@ -1,6 +1,6 @@
 # Rose Build
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.rose-group/rose-build/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.rose-group/rose-build)
+[![Maven Build](https://github.com/rose-group/rose-build/actions/workflows/maven-build.yml/badge.svg)](https://github.com/rose-group/rose-build/actions/workflows/maven-build.yml)
 ![Maven](https://img.shields.io/maven-central/v/io.github.rose-group/rose-build.svg)
 ![License](https://img.shields.io/github/license/rose-group/rose-build.svg)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rose-group/rose-build.svg)](http://isitmaintained.com/project/rose-group/rose-build "Average time to resolve an issue")
