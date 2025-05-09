@@ -71,6 +71,7 @@ jobs:
 
       - name: Push changes
         run: |
+          git push origin $(git rev-parse --abbrev-ref HEAD)
           git push --tags
 
       - name: Create Release
