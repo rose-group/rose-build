@@ -23,7 +23,7 @@ jobs:
           echo '::error::Cannot release a SNAPSHOT version.'
           exit 1
 
-      - name: Create Milestone
+      - name: Close and create Milestone
         uses: radcortez/milestone-release-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
