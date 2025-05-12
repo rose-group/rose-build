@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.4.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Rose :: Build</name>
