@@ -34,7 +34,7 @@ jobs:
     name: release
     if: ${{ github.event.pull_request.merged == true }}
     env:
-      GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Retrieve Project Metadata
