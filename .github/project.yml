@@ -1,0 +1,4 @@
+name: Rose Build
+release:
+  current-version: 0.0.2
+  next-version: 0.0.3-SNAPSHOT
