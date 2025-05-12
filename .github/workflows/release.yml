@@ -1,5 +1,4 @@
-name: Release
-run-name: Release ${{github.event.inputs.tag}}
+name: Maven Release
 
 on:
   workflow_dispatch:
