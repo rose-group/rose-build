@@ -29,7 +29,7 @@ concurrency:
 jobs:
   release:
     name: Perform Release
-    uses: rose-group/.github/.github/workflows/tag.yml@main
+    uses: rose-group/.github/.github/workflows/release.yml@main
     secrets: inherit
     with:
       branch: ${{github.event.inputs.branch}}
