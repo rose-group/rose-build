@@ -37,22 +37,9 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Retrieve Project Metadata
-        uses: radcortez/project-metadata-action@main
-        id: metadata
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          metadata-file-path: '.github/project.yml'
-
       - name: Release ${{github.event.inputs.version}}
         uses: rose-group/.github/.github/workflows/release.yml@main
         secrets: inherit
         with:
           version: ${{steps.metadata.outputs.current-version}}
           nextVersion: ${{steps.metadata.outputs.next-version}}
-
-      - name: Release Milestone
-        uses: radcortez/milestone-release-action@main
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          milestone-title: v${{ steps.metadata.outputs.current-version }}
