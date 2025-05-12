@@ -1,0 +1,31 @@
+name: SmallRye Review Release
+
+on:
+  pull_request:
+    paths:
+      - '.github/project.yml'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: pre release
+
+    steps:
+      - name: Retrieve Project Metadata
+        uses: radcortez/project-metadata-action@main
+        id: metadata
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          metadata-file-path: '.github/project.yml'
+
+      - name: Validate version
+        if: contains(steps.metadata.outputs.current-version, 'SNAPSHOT')
+        run: |
+          echo '::error::Cannot release a SNAPSHOT version.'
+          exit 1
+
+      - name: Release Milestone
+        uses: radcortez/milestone-release-action@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          milestone-title: v${{ steps.metadata.outputs.current-version }}
