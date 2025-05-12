@@ -16,14 +16,23 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
-  perform-release:
-    name: Perform Release
-    uses: rose-group/.github/.github/workflows/release-project.yml@main
-    secrets: inherit
-    with:
-      ref: ${{github.ref}}
-      version: ${{github.event.inputs.version}}
-      nextVersion: ${{github.event.inputs.nextVersion}}
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieve Project Metadata
+        uses: radcortez/project-metadata-action@main
+        id: metadata
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          metadata-file-path: '.github/project.yml'
 
+      - name: Release
+        uses: rose-group/.github/.github/workflows/release-project.yml@main
+        secrets: inherit
+        with:
+          ref: ${{github.ref}}
+          version: ${{github.event.inputs.version}}
+          nextVersion: ${{github.event.inputs.nextVersion}}
