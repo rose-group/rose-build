@@ -1,4 +1,4 @@
-name: Release by project
+name: Release by workflow dispatch
 
 on:
   workflow_dispatch:
@@ -21,3 +21,6 @@ jobs:
     name: Release
     uses: rose-group/.github/.github/workflows/release-by-workflow-dispatch.yml@main
     secrets: inherit
+    with:
+      version: ${{github.event.inputs.version}}
+      nextVersion: ${{github.event.inputs.nextVersion}}
