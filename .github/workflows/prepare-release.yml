@@ -14,5 +14,5 @@ jobs:
   prepare-release:
     name: Prepare Release
     if: ${{ github.event.pull_request.merged == true}}
-    uses: rose-group/.github/.github/workflows/prepare-tag.yml@main
+    uses: rose-group/.github/.github/workflows/prepare-release.yml@main
     secrets: inherit
