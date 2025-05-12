@@ -48,9 +48,8 @@ jobs:
         uses: rose-group/.github/.github/workflows/release.yml@main
         secrets: inherit
         with:
-          branch: ${{github.event.inputs.branch}}
-          version: ${{github.event.inputs.version}}
-          nextVersion: ${{github.event.inputs.nextVersion}}
+          version: ${{steps.metadata.outputs.current-version}}
+          nextVersion: ${{steps.metadata.outputs.next-version}}
 
       - name: Release Milestone
         uses: radcortez/milestone-release-action@main
