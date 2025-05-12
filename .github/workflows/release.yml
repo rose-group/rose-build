@@ -1,14 +1,21 @@
 name: Release
-run-name: Perform ${{github.event.inputs.tag || github.ref_name}} Release
+run-name: Perform ${{github.event.inputs.tag}} Release
+
 on:
-  push:
-    tags:
-      - '*'
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'Tag to release'
+      branch:
+        description: "The branch to release."
         required: true
+        default: "main"
+      version:
+        description: "Release version"
+        required: true
+        default: "0.0.1"
+      nextVersion:
+        description: "Next version"
+        required: true
+        default: "0.0.2-SNAPSHOT"
 
 permissions:
   attestations: write
@@ -20,9 +27,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  perform-release:
+  release:
     name: Perform Release
-    uses: rose-group/.github/.github/workflows/perform-release.yml@main
+    uses: rose-group/.github/.github/workflows/tag.yml@main
     secrets: inherit
     with:
-      version: ${{github.event.inputs.tag || github.ref_name}}
+      branch: ${{github.event.inputs.branch}}
+      version: ${{github.event.inputs.version}}
+      nextVersion: ${{github.event.inputs.nextVersion}}
