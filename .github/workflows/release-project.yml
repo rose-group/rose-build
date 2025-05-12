@@ -21,6 +21,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    name: release
     steps:
       - name: Retrieve Project Metadata
         uses: radcortez/project-metadata-action@main
