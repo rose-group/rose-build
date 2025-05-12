@@ -1,0 +1,23 @@
+name: Release by project
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version"
+        required: true
+        default: "0.0.1"
+      nextVersion:
+        description: "Next version"
+        required: true
+        default: "0.0.2-SNAPSHOT"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Release
+    uses: rose-group/.github/.github/workflows/release-by-workflow-dispatch.yml@main
+    secrets: inherit
