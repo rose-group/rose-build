@@ -178,7 +178,7 @@
                         <localCheckout>true</localCheckout>
                         <remoteTagging>false</remoteTagging>
                         <!--suppress UnresolvedMavenProperty -->
-                        <arguments>-DskipTests ${release.arguments}</arguments>
+                        <arguments>-Prelease -DskipTests ${release.arguments}</arguments>
                     </configuration>
                 </plugin>
                 <plugin>
