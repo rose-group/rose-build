@@ -16,6 +16,10 @@ on:
       - 'LICENSE'
       - 'README*'
   pull_request:
+    paths-ignore:
+      - '.gitignore'
+      - 'LICENSE'
+      - 'README*'
 
 jobs:
   build:

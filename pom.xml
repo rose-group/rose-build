@@ -82,16 +82,9 @@
 
         <puppycrawl-tools-checkstyle.version>10.23.1</puppycrawl-tools-checkstyle.version>
 
-        <!-- flatten-maven-plugin -->
-        <flatten.dependency.mode>all</flatten.dependency.mode>
-        <flatten.mode>resolveCiFriendliesOnly</flatten.mode>
-        <updatePomFile>true</updatePomFile>
-        <flatten.pomElements.parent>expand</flatten.pomElements.parent>
-        <flatten.pomElements.properties>keep</flatten.pomElements.properties>
-        <flatten.pomElements.dependencyManagement>interpolate</flatten.pomElements.dependencyManagement>
-        <flatten.pomElements.dependencies>resolve</flatten.pomElements.dependencies>
-        <flatten.pomElements.distributionManagement>remove</flatten.pomElements.distributionManagement>
-        <flatten.pomElements.repositories>remove</flatten.pomElements.repositories>
+        <!-- Sonar settings -->
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>rose-group</sonar.organization>
 
         <!-- maven-checkstyle-plugin -->
         <disable.checks>true</disable.checks>
@@ -379,17 +372,16 @@
                     <inherited>true</inherited>
                     <configuration>
                         <embedBuildProfileDependencies>false</embedBuildProfileDependencies>
-                        <flattenDependencyMode>${flatten.dependency.mode}</flattenDependencyMode>
-                        <flattenMode>${flatten.mode}</flattenMode>
-                        <updatePomFile>${updatePomFile}</updatePomFile>
+                        <flattenDependencyMode>all</flattenDependencyMode>
+                        <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                        <updatePomFile>true</updatePomFile>
                         <pomElements>
-                            <parent>${flatten.pomElements.parent}</parent>
-                            <properties>${flatten.pomElements.properties}</properties>
-                            <dependencyManagement>${flatten.pomElements.dependencyManagement}</dependencyManagement>
-                            <dependencies>${flatten.pomElements.dependencies}</dependencies>
-                            <distributionManagement>${flatten.pomElements.distributionManagement}
-                            </distributionManagement>
-                            <repositories>${flatten.pomElements.repositories}</repositories>
+                            <parent>expand</parent>
+                            <properties>keep</properties>
+                            <dependencyManagement>interpolate</dependencyManagement>
+                            <dependencies>resolve</dependencies>
+                            <distributionManagement>remove</distributionManagement>
+                            <repositories>remove</repositories>
                         </pomElements>
                     </configuration>
                     <executions>
@@ -481,14 +473,6 @@
                     <groupId>com.diffplug.spotless</groupId>
                     <artifactId>spotless-maven-plugin</artifactId>
                     <version>${spotless-maven-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>apply</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                     <configuration>
                         <java>
                             <importOrder></importOrder>
@@ -556,10 +540,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>pl.project13.maven</groupId>
@@ -770,31 +750,6 @@
                 <jvm.argLine>
                     --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
                 </jvm.argLine>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>jdk17+</id>
-            <activation>
-                <jdk>[17,)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <!-- 需要 jdk17 -->
-                    <plugin>
-                        <groupId>com.marvinformatics.jacoco</groupId>
-                        <artifactId>easy-jacoco-maven-plugin</artifactId>
-                        <version>${easy-jacoco-maven-plugin.version}</version>
-                        <configuration>
-                            <haltOnFailure>true</haltOnFailure>
-                            <projectExtraProperties>
-                                <license.skip>true</license.skip>
-                            </projectExtraProperties>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <properties>
             </properties>
         </profile>
     </profiles>
