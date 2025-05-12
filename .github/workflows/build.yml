@@ -14,11 +14,13 @@ on:
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
+      - 'CODEOWNERS'
       - 'README*'
   pull_request:
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
+      - 'CODEOWNERS'
       - 'README*'
 
 jobs:
