@@ -1,45 +1,41 @@
 name: Maven Release
-
-#on:
-#  workflow_dispatch:
-#    inputs:
-#      branch:
-#        description: "The branch to release."
-#        required: true
-#        type: string
-#        default: "main"
-#      version:
-#        description: "Release version"
-#        required: true
-#        type: string
-#        default: "0.0.1"
-#      nextVersion:
-#        description: "Next version"
-#        required: true
-#        type: string
-#        default: "0.0.2-SNAPSHOT"
+run-name: Perform ${{github.event.inputs.tag || github.ref_name}} Release
 
 on:
-  pull_request:
-    types: [closed]
-    paths:
-      - '.github/project.yml'
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch to release."
+        required: true
+        type: string
+        default: "main"
+      version:
+        description: "Release version"
+        required: true
+        type: string
+        default: "0.0.1"
+      nextVersion:
+        description: "Next version"
+        required: true
+        type: string
+        default: "0.0.2-SNAPSHOT"
 
 permissions:
   contents: write
 
-jobs:
-  release:
-    runs-on: ubuntu-latest
-    name: release
-    if: ${{ github.event.pull_request.merged == true }}
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
-    steps:
-      - name: Release ${{github.event.inputs.version}}
-        uses: rose-group/.github/.github/workflows/release.yml@main
-        secrets: inherit
-        with:
-          version: ${{steps.metadata.outputs.current-version}}
-          nextVersion: ${{steps.metadata.outputs.next-version}}
+jobs:
+  perform-release:
+    name: Perform Release
+    uses: rose-group/.github/.github/workflows/release.yml@main
+    secrets: inherit
+    with:
+      branch: ${{steps.metadata.outputs.branch}}
+      version: ${{steps.metadata.outputs.version}}
+      nextVersion: ${{steps.metadata.outputs.next-version}}
