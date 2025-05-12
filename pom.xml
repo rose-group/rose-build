@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <packaging>pom</packaging>
 
     <name>Rose :: Build</name>
@@ -35,7 +34,7 @@
     <scm>
         <connection>scm:git:https://github.com/rose-group/rose-build.git</connection>
         <developerConnection>scm:git:https://github.com/rose-group/rose-build.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v0.0.3</tag>
         <url>https://github.com/rose-group/rose-build.git</url>
     </scm>
 
@@ -93,8 +92,8 @@
         <maven-checkstyle-plugin.includeTestSourceDirectory>true</maven-checkstyle-plugin.includeTestSourceDirectory>
 
         <!-- Arguments Line -->
-        <jvm.argLine/>
-        <jacoco.argLine/>
+        <jvm.argLine />
+        <jacoco.argLine />
         <surefire.argLine>-Duser.language=en -Duser.country=en</surefire.argLine>
     </properties>
 
@@ -277,7 +276,7 @@
                             </goals>
                             <configuration>
                                 <rules>
-                                    <banDuplicatePomDependencyVersions/>
+                                    <banDuplicatePomDependencyVersions />
                                 </rules>
                             </configuration>
                         </execution>
@@ -475,9 +474,9 @@
                     <version>${spotless-maven-plugin.version}</version>
                     <configuration>
                         <java>
-                            <importOrder></importOrder>
-                            <removeUnusedImports></removeUnusedImports>
-                            <palantirJavaFormat></palantirJavaFormat>
+                            <importOrder />
+                            <removeUnusedImports />
+                            <palantirJavaFormat />
                         </java>
                     </configuration>
                 </plugin>
