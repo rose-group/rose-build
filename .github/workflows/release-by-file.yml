@@ -1,4 +1,4 @@
-name: Release by project
+name: Release by file
 
 on:
   pull_request:
