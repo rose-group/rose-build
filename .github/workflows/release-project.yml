@@ -1,0 +1,37 @@
+name: Maven Release
+run-name: Release ${{github.event.inputs.version || github.ref_name}}
+on:
+  workflow_dispatch:
+    ref:
+      required: false
+      type: string
+      default: ""
+      description: "Branch or tag to release"
+    version:
+      required: true
+      type: string
+      default: "0.0.1"
+      description: "Release version"
+    nextVersion:
+      required: true
+      type: string
+      default: "0.0.2-SNAPSHOT"
+      description: "Next version"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  perform-release:
+    name: Perform Release
+    uses: rose-group/.github/.github/workflows/release-project.yml@main
+    secrets: inherit
+    with:
+      ref: ${{github.event.inputs.ref}}
+      version: ${{github.event.inputs.version}}
+      nextVersion: ${{github.event.inputs.nextVersion}}
+
