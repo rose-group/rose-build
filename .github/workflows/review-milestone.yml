@@ -6,10 +6,9 @@ on:
       - '.github/project.yml'
 
 jobs:
-  release:
+  view-milestone:
     runs-on: ubuntu-latest
-    name: pre release
-
+    name: view-milestone
     steps:
       - name: Retrieve Project Metadata
         uses: radcortez/project-metadata-action@main
@@ -28,4 +27,4 @@ jobs:
         uses: radcortez/milestone-release-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          milestone-title: v${{ steps.metadata.outputs.current-version }}
+          milestone-title: ${{ steps.metadata.outputs.current-version }}
