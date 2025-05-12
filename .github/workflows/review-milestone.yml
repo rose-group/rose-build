@@ -1,4 +1,4 @@
-name: SmallRye Review Release
+name: Review Milestone
 
 on:
   pull_request:
