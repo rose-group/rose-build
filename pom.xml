@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.4</version>
     <packaging>pom</packaging>
 
     <name>Rose :: Build</name>
@@ -34,7 +34,7 @@
     <scm>
         <connection>scm:git:https://github.com/rose-group/rose-build.git</connection>
         <developerConnection>scm:git:https://github.com/rose-group/rose-build.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v0.0.4</tag>
         <url>https://github.com/rose-group/rose-build.git</url>
     </scm>
 
