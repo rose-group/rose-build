@@ -1,4 +1,4 @@
-name: Update Milestone
+name: PR Set Milestone
 
 on:
   pull_request_target:
