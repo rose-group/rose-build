@@ -1,4 +1,4 @@
-name: Release by file
+name: Release by File
 
 on:
   pull_request:

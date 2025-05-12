@@ -1,13 +1,13 @@
-name: Release by manual
+name: Release by Manual
 
 on:
   workflow_dispatch:
     inputs:
-      version:
+      current-version:
         description: "Release version"
         required: true
         default: "0.0.1"
-      nextVersion:
+      next-version:
         description: "Next version"
         required: true
         default: "0.0.2-SNAPSHOT"
@@ -22,5 +22,5 @@ jobs:
     uses: rose-group/.github/.github/workflows/release-by-manual.yml@main
     secrets: inherit
     with:
-      version: ${{github.event.inputs.version}}
-      nextVersion: ${{github.event.inputs.nextVersion}}
+      current-version: ${{github.event.inputs.current-version}}
+      next-version: ${{github.event.inputs.next-version}}
