@@ -1,39 +1,18 @@
-name: Maven Release
+name: Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        required: true
-        type: string
-        default: "0.0.1"
-        description: "Release version"
-      nextVersion:
-        required: true
-        type: string
-        default: "0.0.2-SNAPSHOT"
-        description: "Next version"
+  pull_request:
+    types: [ closed ]
+    paths:
+      - '.github/project.yml'
 
-permissions:
-  contents: write
-  issues: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   release:
-    runs-on: ubuntu-latest
-    name: release
-    steps:
-      - name: Retrieve Project Metadata
-        uses: radcortez/project-metadata-action@main
-        id: metadata
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          metadata-file-path: '.github/project.yml'
-
-      - name: Release
-        uses: rose-group/.github/.github/workflows/release-project.yml@main
-        secrets: inherit
-        with:
-          ref: ${{github.ref}}
-          version: ${{github.event.inputs.version}}
-          nextVersion: ${{github.event.inputs.nextVersion}}
+    name: Release
+    if: ${{ github.event.pull_request.merged == true}}
+    uses: rose-group/.github/.github/workflows/release-project.yml@main
+    secrets: inherit
