@@ -1,5 +1,4 @@
-name: Release
-run-name: Release ${{github.event.inputs.tag}}
+name: Maven Release
 
 on:
   workflow_dispatch:
@@ -18,13 +17,7 @@ on:
         default: "0.0.2-SNAPSHOT"
 
 permissions:
-  attestations: write
-  id-token: write
-  contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  contents: write
 
 jobs:
   release:
