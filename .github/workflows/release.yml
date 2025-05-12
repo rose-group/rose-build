@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   release:
-    name: Perform Release
+    name: Release
     uses: rose-group/.github/.github/workflows/release.yml@main
     secrets: inherit
     with:
