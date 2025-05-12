@@ -14,13 +14,11 @@ on:
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
-      - 'CODEOWNERS'
       - 'README*'
   pull_request:
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
-      - 'CODEOWNERS'
       - 'README*'
 
 jobs:
@@ -42,5 +40,13 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: maven
 
+      - name: Detect Maven Wrapper
+        run: |
+          if [ -f mvnw ]; then
+            echo "MAVEN_EXEC=./mvnw" >> $GITHUB_ENV
+          else
+            echo "MAVEN_EXEC=mvn" >> $GITHUB_ENV
+          fi
+
       - name: Build with Maven
-        run: mvn -B -ntp verify
+        run: ${MAVEN_EXEC} -B -ntp verify

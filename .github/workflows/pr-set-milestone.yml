@@ -2,15 +2,15 @@ name: PR Set Milestone
 
 on:
   pull_request_target:
-    types: [closed]
+    types: [ closed ]
 
 jobs:
-  update-milestone:
+  set-milestone:
     runs-on: ubuntu-latest
-    name: update-milestone
+    name: set-milestone
     if: ${{github.event.pull_request.merged == true}}
     steps:
-      - uses: radcortez/milestone-set-action@main
-        name: milestone set
+      - name: Set Milestone
+        uses: radcortez/milestone-set-action@main
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
