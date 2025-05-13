@@ -1,6 +1,7 @@
 name: Release by File
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [ closed ]
     paths:
