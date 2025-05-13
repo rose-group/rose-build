@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.11-SNAPSHOT</version>
+    <version>0.0.10-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Rose :: Build</name>
@@ -34,8 +35,8 @@
     <scm>
         <connection>scm:git:https://github.com/rose-group/rose-build.git</connection>
         <developerConnection>scm:git:https://github.com/rose-group/rose-build.git</developerConnection>
-        <tag>v0.0.3</tag>
         <url>https://github.com/rose-group/rose-build.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
@@ -69,7 +70,6 @@
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
         <maven-surefire-report-plugin.version>3.5.3</maven-surefire-report-plugin.version>
-        <sign-maven-plugin.version>1.1.0</sign-maven-plugin.version>
         <!-- spotbugs for java 8 -->
         <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
         <!-- spotless for java 8 -->
@@ -91,8 +91,8 @@
         <maven-checkstyle-plugin.includeTestSourceDirectory>true</maven-checkstyle-plugin.includeTestSourceDirectory>
 
         <!-- Arguments Line -->
-        <jvm.argLine />
-        <jacoco.argLine />
+        <jvm.argLine/>
+        <jacoco.argLine/>
         <surefire.argLine>-Duser.language=en -Duser.country=en</surefire.argLine>
     </properties>
 
@@ -105,7 +105,7 @@
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
                         <compilerArgs>
-                            <compilerArg>-parameters</compilerArg>
+                            <arg>-parameters</arg>
                         </compilerArgs>
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>
@@ -261,7 +261,7 @@
                             </goals>
                             <configuration>
                                 <rules>
-                                    <banDuplicatePomDependencyVersions />
+                                    <banDuplicatePomDependencyVersions/>
                                 </rules>
                             </configuration>
                         </execution>
@@ -337,7 +337,7 @@
                         <dependency>
                             <groupId>org.pitest</groupId>
                             <artifactId>pitest-junit5-plugin</artifactId>
-                            <version>1.2.2</version>
+                            <version>1.2.1</version>
                         </dependency>
                     </dependencies>
                     <configuration>
@@ -459,9 +459,9 @@
                     <version>${spotless-maven-plugin.version}</version>
                     <configuration>
                         <java>
-                            <importOrder />
-                            <removeUnusedImports />
-                            <palantirJavaFormat />
+                            <importOrder/>
+                            <removeUnusedImports/>
+                            <palantirJavaFormat/>
                         </java>
                     </configuration>
                 </plugin>
@@ -483,24 +483,6 @@
                             </configuration>
                         </execution>
                     </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.simplify4u.plugins</groupId>
-                    <artifactId>sign-maven-plugin</artifactId>
-                    <version>${sign-maven-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>sign</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <!--
-                     Key configuration can be provided by environment variables: SIGN_KEY, SIGN_KEY_ID, SIGN_KEY_PASS
-                     "SIGN_KEY" : the content of private key(not file path)
-                     "SIGN_KEY_ID": long-format key id, instead of short one
-                     "SIGN_KEY_PASS": the passphrase
-                    -->
                 </plugin>
                 <plugin>
                     <groupId>org.sonatype.central</groupId>
@@ -537,6 +519,10 @@
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
@@ -564,18 +550,6 @@
                     <plugin>
                         <groupId>io.sundr</groupId>
                         <artifactId>sundr-maven-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>ci</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.simplify4u.plugins</groupId>
-                        <artifactId>sign-maven-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
