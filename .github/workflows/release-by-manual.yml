@@ -22,5 +22,6 @@ jobs:
     uses: rose-group/.github/.github/workflows/release-by-manual.yml@main
     secrets: inherit
     with:
+      publish: false
       current-version: ${{github.event.inputs.current-version}}
       next-version: ${{github.event.inputs.next-version}}
