@@ -7,8 +7,22 @@
 
 # Rose Build
 
-Rose Build is a Java Maven parent POM with common build settings, plugins configuration etc. which is used for Rose
-Projects.
+Define Maven build setup for all Rose projects.
+
+## Requirements
+
+Java 8 or newer to build.
+
+Maven 3.6.0 or newer.
+
+## Features
+
+Rose Build supports the following features:
+
+- Language Support
+- Plugins Management
+- Profiles Management
+- Project Settings
 
 ## Instructions
 
@@ -19,3 +33,18 @@ To compile and test the project:
 ```bash
 mvn verify
 ```
+
+## Usage
+
+### Java 8+ Maven Project
+
+The root project's pom.xml should set the parent as follows:
+
+```xml
+    <parent>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-build</artifactId>
+        <version>0.0.8</version>
+    </parent>
+```
+
