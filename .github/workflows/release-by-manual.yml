@@ -3,6 +3,11 @@ name: Release by Manual
 on:
   workflow_dispatch:
     inputs:
+      publish:
+        description: "Whether to publish to Central"
+        required: false
+        type: boolean
+        default: "true"
       current-version:
         description: "Release version"
         required: true
