@@ -9,6 +9,12 @@
 
 Define Maven build setup for all Rose projects.
 
+## Requirements
+
+Java 8 or newer to build.
+
+Maven 3.6.0 or newer.
+
 ## Features
 
 Rose Build supports the following features:

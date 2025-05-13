@@ -138,8 +138,10 @@
                             </goals>
                             <configuration>
                                 <source>${maven.compiler.source}</source>
-                                <detectJavaApiLink>false</detectJavaApiLink>
                                 <encoding>${file.encoding}</encoding>
+                                <doclint>all</doclint>
+                                <detectLinks>false</detectLinks>
+                                <detectOfflineLinks>false</detectOfflineLinks>
                             </configuration>
                         </execution>
                     </executions>
