@@ -508,12 +508,12 @@
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
@@ -522,6 +522,10 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.sundr</groupId>
+                <artifactId>sundr-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
