@@ -1,5 +1,5 @@
 [![Maven Build](https://github.com/rose-group/rose-build/actions/workflows/build.yml/badge.svg)](https://github.com/rose-group/rose-build/actions/workflows/build.yml)
-![Maven](https://img.shields.io/maven-central/v/io.github.rose-group/rose-build.svg)
+[![Maven](https://img.shields.io/maven-central/v/io.github.rose-group/rose-build.svg)](https://repo1.maven.org/maven2/io/github/rose-group/rose-build/)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=io.github.rose-group%3Arose-build&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=io.github.rose-group%3Arose-build)
 ![License](https://img.shields.io/github/license/rose-group/rose-build.svg)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rose-group/rose-build.svg)](http://isitmaintained.com/project/rose-group/rose-build "Average time to resolve an issue")
@@ -44,7 +44,7 @@ The root project's pom.xml should set the parent as follows:
     <parent>
         <groupId>io.github.rose-group</groupId>
         <artifactId>rose-build</artifactId>
-        <version>0.0.10</version>
+        <version>0.0.9</version>
     </parent>
 ```
 
