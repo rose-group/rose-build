@@ -23,7 +23,7 @@ on:
       - 'README*'
 
 env:
-  MAVEN_ARGS: -B -e -ntp
+  MAVEN_ARGS: -B -ntp
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -68,9 +68,9 @@ jobs:
       - name: Test rose-microservice
         run: |
           cd rose-microservice
-          mvn -B -ntp versions:update-parent -DallowSnapshots=true -N
+          mvn versions:update-parent -DallowSnapshots=true -N
           git diff pom.xml
-          mvn -B -ntp install
+          mvn install
 
   quality:
     needs: [ build ]
