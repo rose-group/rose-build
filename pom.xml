@@ -485,6 +485,54 @@
                         </includeOnlyProperties>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>de.thetaphi</groupId>
+                    <artifactId>forbiddenapis</artifactId>
+                    <version>3.9</version>
+                    <configuration>
+                        <signatures>
+                            <![CDATA[
+                com.google.common.base.Preconditions#checkNotNull(java.lang.Object) @ use java.util.Objects#requireNonNull(java.lang.Object) instead
+                com.google.common.collect.ImmutableList#of(java.lang.Object) @ use java.util.Collections#singletonList(java.util.Objects#requireNonNull(java.lang.Object)) instead, and also consider omitting unnecessary null-checks
+                com.google.common.collect.ImmutableSet#of(java.lang.Object) @ use java.util.Collections#singleton(java.util.Objects#requireNonNull(java.lang.Object)) instead, and also consider omitting unnecessary null-checks
+                com.google.common.collect.ImmutableList#of() @ use java.util.Collections#emptyList() instead
+                com.google.common.collect.ImmutableSet#of() @ use java.util.Collections#emptySet() instead
+
+                # According to javadoc of following methods
+                # "for Java 7 and later: this method is now unnecessary and should be treated as deprecated"
+                @defaultMessage use diamond operator instead
+                com.google.common.collect.Lists#newArrayList()
+                com.google.common.collect.Lists#newLinkedList()
+                com.google.common.collect.Maps#newHashMap()
+                com.google.common.collect.Sets#newHashSet()
+                com.google.common.base.Objects @ use java.util.Objects instead
+                ]]>
+                        </signatures>
+                        <!--
+                          if the used Java version is too new,
+                          don't fail, just do nothing:
+                        -->
+                        <failOnUnsupportedJava>false</failOnUnsupportedJava>
+                        <ignoreSignaturesOfMissingClasses>true</ignoreSignaturesOfMissingClasses>
+                        <bundledSignatures>
+                            <bundledSignature>jdk-unsafe</bundledSignature>
+                            <bundledSignature>jdk-deprecated</bundledSignature>
+                            <bundledSignature>jdk-non-portable</bundledSignature>
+                            <bundledSignature>jdk-reflection</bundledSignature>
+                            <bundledSignature>jdk-internal</bundledSignature>
+                            <bundledSignature>jdk-system-out</bundledSignature>
+                            <bundledSignature>commons-io-unsafe-2.18.0</bundledSignature>
+                        </bundledSignatures>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                                <goal>testCheck</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -516,6 +564,10 @@
             <plugin>
                 <groupId>io.sundr</groupId>
                 <artifactId>sundr-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>de.thetaphi</groupId>
+                <artifactId>forbiddenapis</artifactId>
             </plugin>
         </plugins>
     </build>

@@ -92,5 +92,9 @@ jobs:
       - name: build with docs and coverage
         run: mvn verify -Pcoverage javadoc:javadoc
 
-      - name: sonar
+      - name: build with sonar
         run: mvn sonar:sonar -Psonar -Dsonar.token=${{secrets.SONAR_TOKEN}}
+
+      - uses: codecov/codecov-action@v5
+        with:
+          files: "'*/jacoco.xml'"
