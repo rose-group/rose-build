@@ -63,9 +63,12 @@
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+        <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
+        <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
+        <maven.site.plugin.version>4.0.0-M16</maven.site.plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
-        <maven-surefire-report-plugin.version>3.5.3</maven-surefire-report-plugin.version>
+        <pitest-maven.version>1.17.4</pitest-maven.version>
         <!-- spotbugs for java 8 -->
         <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
         <!-- spotless for java 8 -->
@@ -73,8 +76,8 @@
         <!-- sundrio-maven-plugin for java 8 -->
         <sundrio-maven-plugin.version>0.103.0</sundrio-maven-plugin.version>
         <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
-
-        <puppycrawl-tools-checkstyle.version>10.23.1</puppycrawl-tools-checkstyle.version>
+        <!-- for java 8 -->
+        <puppycrawl-tools-checkstyle.version>8.45.1</puppycrawl-tools-checkstyle.version>
 
         <!-- Sonar settings -->
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -126,21 +129,23 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven-javadoc-plugin.version}</version>
+                    <inherited>true</inherited>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
                             <goals>
                                 <goal>jar</goal>
                             </goals>
-                            <configuration>
-                                <source>${maven.compiler.source}</source>
-                                <encoding>${file.encoding}</encoding>
-                                <doclint>all</doclint>
-                                <detectLinks>false</detectLinks>
-                                <detectOfflineLinks>false</detectOfflineLinks>
-                            </configuration>
                         </execution>
                     </executions>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <encoding>${file.encoding}</encoding>
+                        <doclint>all</doclint>
+                        <detectLinks>false</detectLinks>
+                        <detectOfflineLinks>false</detectOfflineLinks>
+                        <additionalOptions>-Xdoclint:none</additionalOptions>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -179,11 +184,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-report-plugin</artifactId>
-                    <version>${maven-surefire-report-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-failsafe-plugin.version}</version>
                     <executions>
@@ -191,6 +191,23 @@
                             <goals>
                                 <goal>integration-test</goal>
                                 <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven.site.plugin.version}</version>
+                    <configuration>
+                        <validate>true</validate>
+                    </configuration>
+                    <!-- Execution like this will pick up in the normal site cycle -->
+                    <executions>
+                        <execution>
+                            <id>attach-descriptor</id>
+                            <goals>
+                                <goal>attach-descriptor</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -314,6 +331,7 @@
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
+                            <phase>generate-test-resources</phase>
                         </execution>
                         <execution>
                             <id>report</id>
@@ -327,7 +345,7 @@
                 <plugin>
                     <groupId>org.pitest</groupId>
                     <artifactId>pitest-maven</artifactId>
-                    <version>1.19.1</version>
+                    <version>${pitest-maven.version}</version>
                     <dependencies>
                         <dependency>
                             <groupId>org.pitest</groupId>
@@ -336,6 +354,8 @@
                         </dependency>
                     </dependencies>
                     <configuration>
+                        <threads>4</threads>
+                        <timestampedReports>false</timestampedReports>
                         <outputFormats>XML,HTML</outputFormats>
                     </configuration>
                 </plugin>
@@ -399,20 +419,6 @@
                             <java>SLASHSTAR_STYLE</java>
                         </mapping>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>io.sundr</groupId>
-                    <artifactId>sundr-maven-plugin</artifactId>
-                    <version>${sundrio-maven-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>generate-bom</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <inherited>false</inherited>
                 </plugin>
                 <plugin>
                     <groupId>com.diffplug.spotless</groupId>
@@ -490,6 +496,7 @@
                     <artifactId>forbiddenapis</artifactId>
                     <version>3.9</version>
                     <configuration>
+                        <targetVersion>${java.version}</targetVersion>
                         <signatures>
                             <![CDATA[
                 com.google.common.base.Preconditions#checkNotNull(java.lang.Object) @ use java.util.Objects#requireNonNull(java.lang.Object) instead
@@ -508,10 +515,7 @@
                 com.google.common.base.Objects @ use java.util.Objects instead
                 ]]>
                         </signatures>
-                        <!--
-                          if the used Java version is too new,
-                          don't fail, just do nothing:
-                        -->
+                        <!-- if the used Java version is too new, don't fail, just do nothing: -->
                         <failOnUnsupportedJava>false</failOnUnsupportedJava>
                         <ignoreSignaturesOfMissingClasses>true</ignoreSignaturesOfMissingClasses>
                         <bundledSignatures>
@@ -521,7 +525,6 @@
                             <bundledSignature>jdk-reflection</bundledSignature>
                             <bundledSignature>jdk-internal</bundledSignature>
                             <bundledSignature>jdk-system-out</bundledSignature>
-                            <bundledSignature>commons-io-unsafe-2.18.0</bundledSignature>
                         </bundledSignatures>
                     </configuration>
                     <executions>
@@ -532,6 +535,20 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>io.sundr</groupId>
+                    <artifactId>sundr-maven-plugin</artifactId>
+                    <version>${sundrio-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>generate-bom</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <inherited>false</inherited>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -546,14 +563,6 @@
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
             </plugin>
@@ -562,12 +571,16 @@
                 <artifactId>license-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>io.sundr</groupId>
-                <artifactId>sundr-maven-plugin</artifactId>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>de.thetaphi</groupId>
                 <artifactId>forbiddenapis</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.sundr</groupId>
+                <artifactId>sundr-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -602,10 +615,16 @@
             <properties>
                 <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
                 <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
-                <sonar.coverage.jacoco.xmlReportPaths>
-                    ${maven.multiModuleProjectDirectory}/coverage/target/site/jacoco-aggregate/jacoco.xml
-                </sonar.coverage.jacoco.xmlReportPaths>
+                <sonar.test.exclusions>**/test/resources/**/*,**/it/resources/**/*</sonar.test.exclusions>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
 
         <profile>
@@ -645,27 +664,6 @@
         </profile>
 
         <profile>
-            <id>java8+</id>
-            <activation>
-                <jdk>[1.8,)</jdk>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <inherited>true</inherited>
-                            <configuration>
-                                <additionalOptions>-Xdoclint:none</additionalOptions>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <profile>
             <id>java9+</id>
             <activation>
                 <jdk>[9,)</jdk>
@@ -682,23 +680,11 @@
             </activation>
             <properties>
                 <license-maven-plugin.version>5.0.0</license-maven-plugin.version>
+                <pitest-maven.version>1.18.0</pitest-maven.version>
                 <spotless-maven-plugin.version>2.44.4</spotless-maven-plugin.version>
                 <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
                 <sundrio-maven-plugin.version>0.200.3</sundrio-maven-plugin.version>
             </properties>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <configuration>
-                                <source>${maven.compiler.source}</source>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
         </profile>
 
         <profile>
@@ -730,7 +716,34 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <id>default</id>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven-project-info-reports-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${maven-jxr-plugin.version}</version>
             </plugin>
         </plugins>
     </reporting>
@@ -738,8 +751,22 @@
     <distributionManagement>
         <snapshotRepository>
             <id>central</id>
-            <name>central</name>
+            <name>central-snapshot</name>
             <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>central-snapshot</name>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
 </project>
