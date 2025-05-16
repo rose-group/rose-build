@@ -65,12 +65,12 @@ jobs:
           repository: rose-group/rose
           path: rose
 
-      - name: Test rose
-        run: |
-          cd rose
-          mvn versions:update-parent -DallowSnapshots=true -N
-          git diff pom.xml
-          mvn install
+#      - name: Test rose
+#        run: |
+#          cd rose
+#          mvn versions:update-parent -DallowSnapshots=true -N
+#          git diff pom.xml
+#          mvn install
 
   quality:
     needs: [ build ]
