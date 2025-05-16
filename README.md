@@ -85,7 +85,7 @@ The root project's pom.xml should set the parent as follows:
 <parent>
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.10</version>
+    <version>0.0.11</version>
 </parent>
 ```
 
