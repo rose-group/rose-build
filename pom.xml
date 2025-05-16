@@ -63,7 +63,7 @@
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
-        <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
+        <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
         <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
         <maven.site.plugin.version>4.0.0-M16</maven.site.plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
@@ -76,8 +76,10 @@
         <!-- sundrio-maven-plugin for java 8 -->
         <sundrio-maven-plugin.version>0.103.0</sundrio-maven-plugin.version>
         <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
+
         <!-- for java 8 -->
         <puppycrawl-tools-checkstyle.version>8.45.1</puppycrawl-tools-checkstyle.version>
+        <maven-fluido-skin.version>2.0.0-M11</maven-fluido-skin.version>
 
         <!-- Sonar settings -->
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -94,6 +96,16 @@
         <jacoco.argLine/>
         <surefire.argLine>-Duser.language=en -Duser.country=en</surefire.argLine>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.maven.skins</groupId>
+                <artifactId>maven-fluido-skin</artifactId>
+                <version>${maven-fluido-skin.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>
@@ -164,6 +176,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>${maven-deploy-plugin.version}</version>
+                    <configuration>
+                        <deployAtEnd>true</deployAtEnd>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -707,26 +722,18 @@
         </profile>
     </profiles>
 
+    <!-- Note that reporting may fail with lower settings than something like: MAVEN_OPTS="-X512m -XX:MaxPermSize=128m" -->
     <reporting>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <inherited>false</inherited>
                 <reportSets>
                     <reportSet>
-                        <id>default</id>
+                        <id>javadoc-aggregate</id>
                         <reports>
-                            <report>javadoc</report>
-                        </reports>
-                        <configuration>
-                            <aggregate>true</aggregate>
-                        </configuration>
-                    </reportSet>
-                    <reportSet>
-                        <id>aggregate</id>
-                        <inherited>false</inherited>
-                        <reports>
-                            <report>aggregate</report>
+                            <report>aggregate-no-fork</report>
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -739,16 +746,92 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>${maven-project-info-reports-plugin.version}</version>
+                <!-- Disable, just to make it go faster -->
+                <configuration>
+                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report-only</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <id>jacoco-aggregate</id>
+                        <reports>
+                            <report>report-integration</report>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
                 <version>${maven-jxr-plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>jxr-no-fork</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <tagListOptions>
+                        <tagClasses>
+                            <tagClass>
+                                <displayName>Todo Work</displayName>
+                                <tags>
+                                    <tag>
+                                        <matchString>todo</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                    <tag>
+                                        <matchString>FIXME</matchString>
+                                        <matchType>exact</matchType>
+                                    </tag>
+                                </tags>
+                            </tagClass>
+                            <tagClass>
+                                <displayName>Deprecated</displayName>
+                                <tags>
+                                    <tag>
+                                        <matchString>@Deprecated</matchString>
+                                        <matchType>exact</matchType>
+                                    </tag>
+                                </tags>
+                            </tagClass>
+                        </tagClasses>
+                    </tagListOptions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <version>2.1</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>generate-no-fork</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
     </reporting>
@@ -759,6 +842,10 @@
             <name>central-snapshot</name>
             <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </snapshotRepository>
+        <site>
+            <id>site</id>
+            <url>https://github.com/rose-group/rose-build.git</url>
+        </site>
     </distributionManagement>
 
     <repositories>

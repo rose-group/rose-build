@@ -60,14 +60,14 @@ jobs:
         run: ${MAVEN_EXEC} verify
 
       - uses: actions/checkout@v4
-        name: Checkout rose-microservice
+        name: Checkout rose
         with:
-          repository: rose-group/rose-microservice
-          path: rose-microservice
+          repository: rose-group/rose
+          path: rose
 
-      - name: Test rose-microservice
+      - name: Test rose
         run: |
-          cd rose-microservice
+          cd rose
           mvn versions:update-parent -DallowSnapshots=true -N
           git diff pom.xml
           mvn install
