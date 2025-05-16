@@ -2,7 +2,7 @@
 
 <site xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/SITE/2.0.0"
       xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd">
-    <bannerLeft name="${this.artifactId}" href="${this.url}">
+    <bannerLeft href="${this.url}">
         <image src="https://maven.apache.org/images/apache-maven-project.png"></image>
     </bannerLeft>
 
@@ -14,10 +14,6 @@
     <version position="right"/>
 
     <body>
-        <breadcrumbs>
-            <item name="${project.name}" href="./index.html"/>
-        </breadcrumbs>
-        
         <menu ref="reports"/>
     </body>
 

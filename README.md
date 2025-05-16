@@ -46,6 +46,12 @@ Building multi-module sites:
 mvn site:site site:stage
 ```
 
+Upload sites to gitHub pages:
+
+```bash
+mvn --update-snapshots clean site scm-publish:publish-scm -Dscmpublish.serverId=github
+```
+
 ### Release
 
 Update Release version:
