@@ -64,11 +64,11 @@
     <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
     <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
-    <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
+    <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
     <maven.site.plugin.version>3.21.0</maven.site.plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
-    <pitest-maven.version>1.19.3</pitest-maven.version>
+    <pitest-maven.version>1.17.4</pitest-maven.version>
     <!-- spotbugs for java 8 -->
     <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
     <!-- spotless for java 8 -->
@@ -313,7 +313,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-publish-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>${maven-scm-publish-plugin.version}</version>
           <configuration>
             <tryUpdate>true</tryUpdate>
           </configuration>
