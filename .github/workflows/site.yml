@@ -1,4 +1,4 @@
-name: Site
+name: Push Sites
 
 on:
   workflow_dispatch:
