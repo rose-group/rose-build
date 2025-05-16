@@ -14,3 +14,25 @@ jobs:
     secrets: inherit
     with:
       multi-modules: false
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'  # 根据项目需求指定 Java 版本
+          distribution: 'temurin'
+
+      - name: Build and generate Maven Site
+        run: mvn clean site:site site:stage
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/staging
+          commit_message: 'Update Maven Site'
