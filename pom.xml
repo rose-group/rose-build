@@ -832,5 +832,9 @@
       <name>central-snapshot</name>
       <url>https://central.sonatype.com/repository/maven-snapshots/</url>
     </snapshotRepository>
+    <site>
+      <id>site</id>
+      <url>${project.scm.developerConnection}</url>
+    </site>
   </distributionManagement>
 </project>
