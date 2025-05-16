@@ -26,12 +26,46 @@ Rose Build supports the following features:
 
 ## Instructions
 
-### Compile and test
-
-To compile and test the project:
+### Compile
 
 ```bash
 mvn verify
+```
+
+### Site
+
+Building single-module site:
+
+```bash
+mvn site:site
+```
+
+Building multi-module sites:
+
+```bash
+mvn site:site site:stage
+```
+
+### Release
+
+Update Release version:
+
+```bash
+mvn versions:set -DprocessAllModules=true -DgenerateBackupPoms=false -DnewVersion=0.0.1
+```
+
+Publish to Central:
+
+```bash
+
+mvn -DskipTests -Prelease deploy
+```
+
+### Sonar
+
+```bash
+mvn verify -Pcoverage javadoc:javadoc
+mvn sonar:sonar -Psonar -Dsonar.token=$SONAR_TOKEN
 ```
 
 ## Usage
