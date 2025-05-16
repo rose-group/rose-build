@@ -14,6 +14,14 @@
         <href>https://maven.apache.org/</href>
     </bannerRight>
 
+    <publishDate position="right"/>
+    <version position="right"/>
+
+    <poweredBy>
+        <logo name="Maven" href="https://maven.apache.org/"
+              img="https://maven.apache.org/images/logos/maven-feather.png"/>
+    </poweredBy>
+
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-fluido-skin</artifactId>
@@ -21,11 +29,16 @@
     </skin>
 
     <body>
-        <links>
-            <item name="Apache" href="http://www.apache.org/"/>
-            <item name="Maven" href="https://maven.apache.org/"/>
-        </links>
+        <breadcrumbs>
+            <item name="Documentation" href="index.html"/>
+        </breadcrumbs>
 
         <menu ref="reports"/>
     </body>
+
+    <custom>
+        <fluidoSkin>
+            <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+        </fluidoSkin>
+    </custom>
 </project>

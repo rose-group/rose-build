@@ -129,7 +129,13 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven-javadoc-plugin.version}</version>
-                    <inherited>true</inherited>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <encoding>${file.encoding}</encoding>
+                        <doclint>none</doclint>
+                        <detectLinks>false</detectLinks>
+                        <detectOfflineLinks>false</detectOfflineLinks>
+                    </configuration>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
@@ -138,14 +144,6 @@
                             </goals>
                         </execution>
                     </executions>
-                    <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <encoding>${file.encoding}</encoding>
-                        <doclint>all</doclint>
-                        <detectLinks>false</detectLinks>
-                        <detectOfflineLinks>false</detectOfflineLinks>
-                        <additionalOptions>-Xdoclint:none</additionalOptions>
-                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -199,9 +197,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>${maven.site.plugin.version}</version>
-                    <configuration>
-                        <validate>true</validate>
-                    </configuration>
                     <!-- Execution like this will pick up in the normal site cycle -->
                     <executions>
                         <execution>
@@ -722,6 +717,16 @@
                         <id>default</id>
                         <reports>
                             <report>javadoc</report>
+                        </reports>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                        </configuration>
+                    </reportSet>
+                    <reportSet>
+                        <id>aggregate</id>
+                        <inherited>false</inherited>
+                        <reports>
+                            <report>aggregate</report>
                         </reports>
                     </reportSet>
                 </reportSets>
