@@ -20,4 +20,4 @@ jobs:
     steps:
       - uses: rcmachado/changelog-action@v1
         with:
-          - args: fmt
+          args: fmt
