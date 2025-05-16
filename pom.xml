@@ -65,6 +65,7 @@
     <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
     <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
     <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
+    <maven-scm-publish-plugin.version>3.3.0</maven-scm-publish-plugin.version>
     <maven.site.plugin.version>3.21.0</maven.site.plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
@@ -90,6 +91,10 @@
     <maven-checkstyle-plugin.failsOnError>true</maven-checkstyle-plugin.failsOnError>
     <maven-checkstyle-plugin.failOnViolation>true</maven-checkstyle-plugin.failOnViolation>
     <maven-checkstyle-plugin.includeTestSourceDirectory>true</maven-checkstyle-plugin.includeTestSourceDirectory>
+
+    <scmpublish.content>${project.reporting.outputDirectory}</scmpublish.content>
+    <scmpublish.pubScmUrl>${project.scm.developerConnection}</scmpublish.pubScmUrl>
+    <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
 
     <!-- Arguments Line -->
     <jvm.argLine/>
@@ -197,6 +202,14 @@
               </goals>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <version>${maven-scm-publish-plugin.version}</version>
+          <configuration>
+            <tryUpdate>true</tryUpdate>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -833,7 +846,7 @@
       <url>https://central.sonatype.com/repository/maven-snapshots/</url>
     </snapshotRepository>
     <site>
-      <id>site</id>
+      <id>github</id>
       <url>${project.scm.developerConnection}</url>
     </site>
   </distributionManagement>
