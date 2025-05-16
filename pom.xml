@@ -75,7 +75,7 @@
     <!-- spotless for java 8 -->
     <spotless-maven-plugin.version>2.22.0</spotless-maven-plugin.version>
     <!-- sundrio-maven-plugin for java 8 -->
-    <sundrio-maven-plugin.version>0.103.0</sundrio-maven-plugin.version>
+    <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
     <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 
     <!-- for java 8 -->
