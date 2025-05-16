@@ -1,4 +1,4 @@
-name: Push Sites
+name: Maven Site
 
 on:
   workflow_dispatch:
@@ -12,3 +12,5 @@ jobs:
     name: site
     uses: rose-group/.github/.github/workflows/site.yml@main
     secrets: inherit
+    with:
+      multi-modules: true

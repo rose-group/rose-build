@@ -89,10 +89,10 @@ jobs:
           cache: 'maven'
           cache-dependency-path: '**/pom.xml'
 
-      - name: build with docs and coverage
+      - name: Build with docs and coverage
         run: mvn verify -Pcoverage javadoc:javadoc
 
-      - name: build with sonar
+      - name: Build with sonar
         run: mvn sonar:sonar -Psonar -Dsonar.token=${{secrets.SONAR_TOKEN}}
 
       - name: Upload coverage reports to Codecov
