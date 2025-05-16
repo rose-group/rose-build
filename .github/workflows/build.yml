@@ -23,12 +23,12 @@ on:
       - 'README*'
 
 env:
-  MAVEN_ARGS: -B -e -ntp
+  MAVEN_ARGS: -B -ntp
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -60,17 +60,17 @@ jobs:
         run: ${MAVEN_EXEC} verify
 
       - uses: actions/checkout@v4
-        name: Checkout rose-microservice
+        name: Checkout rose
         with:
-          repository: rose-group/rose-microservice
-          path: rose-microservice
+          repository: rose-group/rose
+          path: rose
 
-      - name: Test rose-microservice
+      - name: Test rose
         run: |
-          cd rose-microservice
-          mvn -B -ntp versions:update-parent -DallowSnapshots=true -N
+          cd rose
+          mvn versions:update-parent -DallowSnapshots=true -N
           git diff pom.xml
-          mvn -B -ntp install
+          mvn install
 
   quality:
     needs: [ build ]
@@ -92,5 +92,10 @@ jobs:
       - name: build with docs and coverage
         run: mvn verify -Pcoverage javadoc:javadoc
 
-      - name: sonar
+      - name: build with sonar
         run: mvn sonar:sonar -Psonar -Dsonar.token=${{secrets.SONAR_TOKEN}}
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
