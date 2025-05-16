@@ -93,7 +93,7 @@
     <maven-checkstyle-plugin.includeTestSourceDirectory>true</maven-checkstyle-plugin.includeTestSourceDirectory>
 
     <scmpublish.content>${project.reporting.outputDirectory}</scmpublish.content>
-    <scmpublish.pubScmUrl>scm:git:https://github.com/rose-group/rose-build.git</scmpublish.pubScmUrl>
+    <scmpublish.pubScmUrl>${project.scm.developerConnection}</scmpublish.pubScmUrl>
     <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
 
     <!-- Arguments Line -->
