@@ -91,6 +91,10 @@
         <maven-checkstyle-plugin.failOnViolation>true</maven-checkstyle-plugin.failOnViolation>
         <maven-checkstyle-plugin.includeTestSourceDirectory>true</maven-checkstyle-plugin.includeTestSourceDirectory>
 
+        <scmpublish.content>${project.reporting.outputDirectory}</scmpublish.content>
+        <scmpublish.pubScmUrl>scm:git:https://github.com/rose-group/rose-build.git</scmpublish.pubScmUrl>
+        <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
+
         <!-- Arguments Line -->
         <jvm.argLine/>
         <jacoco.argLine/>
@@ -315,6 +319,14 @@
                             </configuration>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-publish-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <configuration>
+                        <tryUpdate>true</tryUpdate>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -843,8 +855,8 @@
             <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </snapshotRepository>
         <site>
-            <id>site</id>
-            <url>https://github.com/rose-group/rose-build.git</url>
+            <id>github</id>
+            <url>scm:git:git@github.com:chensoul/rose-group/rose-build.git</url>
         </site>
     </distributionManagement>
 
