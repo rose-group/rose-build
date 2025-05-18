@@ -1,4 +1,6 @@
-name: PR Set Milestone
+# https://github.com/smallrye/smallrye-config/blob/main/.github/workflows/update-milestone.yml
+
+name: PR Update Milestone
 
 on:
   pull_request_target:
@@ -14,10 +16,3 @@ jobs:
         uses: radcortez/milestone-set-action@main
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-
-  update-changelog:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: rcmachado/changelog-action@v1
-        with:
-          args: fmt
