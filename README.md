@@ -63,7 +63,6 @@ mvn versions:set -DprocessAllModules=true -DgenerateBackupPoms=false -DnewVersio
 Publish to Central:
 
 ```bash
-
 mvn -DskipTests -Prelease deploy
 ```
 
@@ -81,7 +80,6 @@ mvn sonar:sonar -Psonar -Dsonar.token=$SONAR_TOKEN
 The root project's pom.xml should set the parent as follows:
 
 ```xml
-
 <parent>
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
