@@ -56,7 +56,6 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <main.basedir>${basedir}</main.basedir>
 
     <!-- Maven Plugins -->
     <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
@@ -93,19 +92,17 @@
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.organization>rose-group</sonar.organization>
 
-    <!-- maven-checkstyle-plugin -->
-    <disable.checks>true</disable.checks>
-
-    <!-- maven-scm-plugin -->
+    <!-- maven-scm-publish-plugin -->
     <scmpublish.content>${project.reporting.outputDirectory}</scmpublish.content>
     <scmpublish.pubScmUrl>${project.scm.developerConnection}</scmpublish.pubScmUrl>
     <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
 
-    <!-- Arguments Line -->
+    <!-- maven-checkstyle-plugin -->
+    <disable.checks>true</disable.checks>
+
     <jvm.argLine></jvm.argLine>
     <jacoco.argLine></jacoco.argLine>
     <surefire.argLine>-Duser.language=en -Duser.country=en</surefire.argLine>
-    <spotbugsExclude></spotbugsExclude>
   </properties>
 
   <build>
@@ -140,7 +137,6 @@
           <artifactId>spotbugs-maven-plugin</artifactId>
           <version>${spotbugs-maven-plugin.version}</version>
           <configuration>
-            <excludeFilterFile>${spotbugsExclude}</excludeFilterFile>
             <skip>${disable.checks}</skip>
             <effort>Max</effort>
             <threshold>Low</threshold>
