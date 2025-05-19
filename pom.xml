@@ -9,35 +9,6 @@
 
   <name>Rose :: Build</name>
   <description>Rose Build POM</description>
-  <url>https://github.com/rose-group/rose-build</url>
-  <inceptionYear>2025</inceptionYear>
-
-  <organization>
-    <name>rose-group inc</name>
-    <url>https://github.com/rose-group</url>
-  </organization>
-
-  <licenses>
-    <license>
-      <name>Apache License, Version 2.0</name>
-      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-
-  <developers>
-    <developer>
-      <name>chensoul</name>
-      <email>ichensoul@gmail.com</email>
-    </developer>
-  </developers>
-
-  <scm>
-    <connection>scm:git:https://github.com/rose-group/rose-build.git</connection>
-    <developerConnection>scm:git:https://github.com/rose-group/rose-build.git</developerConnection>
-    <url>https://github.com/rose-group/rose-build.git</url>
-    <tag>HEAD</tag>
-  </scm>
 
   <properties>
     <java.version>8</java.version>
@@ -48,9 +19,9 @@
     <main.basedir>${basedir}</main.basedir>
 
     <!-- Maven Plugins -->
-    <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
     <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
     <flatten-maven-plugin.version>1.7.0</flatten-maven-plugin.version>
+    <forbiddenapis.version>3.9</forbiddenapis.version>
     <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
     <!-- license for java 8 -->
@@ -63,24 +34,20 @@
     <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
-    <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
     <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
     <maven-scm-publish-plugin.version>3.3.0</maven-scm-publish-plugin.version>
     <maven.site.plugin.version>3.21.0</maven.site.plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
     <pitest-maven.version>1.17.4</pitest-maven.version>
-    <!-- spotbugs for java 8 -->
-    <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
-    <!-- spotless for java 8 -->
+    <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.8.4.0</spotbugs-maven-plugin.version>
     <spotless-maven-plugin.version>2.22.8</spotless-maven-plugin.version>
-    <!-- sundrio-maven-plugin for java 8 -->
     <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
-    <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
+    <taglist-maven-plugin.version>3.2.1</taglist-maven-plugin.version>
 
-    <!-- for java 8 -->
     <puppycrawl-tools-checkstyle.version>8.45.1</puppycrawl-tools-checkstyle.version>
-    <maven-fluido-skin.version>2.1.0</maven-fluido-skin.version>
+    <pitest-junit5-plugin.version>1.2.2</pitest-junit5-plugin.version>
 
     <!-- Sonar settings -->
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -88,23 +55,180 @@
 
     <!-- maven-checkstyle-plugin -->
     <disable.checks>true</disable.checks>
-    <maven-checkstyle-plugin.failsOnError>true</maven-checkstyle-plugin.failsOnError>
-    <maven-checkstyle-plugin.failOnViolation>true</maven-checkstyle-plugin.failOnViolation>
-    <maven-checkstyle-plugin.includeTestSourceDirectory>true</maven-checkstyle-plugin.includeTestSourceDirectory>
 
+    <!-- maven-scm-plugin -->
     <scmpublish.content>${project.reporting.outputDirectory}</scmpublish.content>
     <scmpublish.pubScmUrl>${project.scm.developerConnection}</scmpublish.pubScmUrl>
     <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
 
     <!-- Arguments Line -->
-    <jvm.argLine/>
-    <jacoco.argLine/>
+    <jvm.argLine></jvm.argLine>
+    <jacoco.argLine></jacoco.argLine>
     <surefire.argLine>-Duser.language=en -Duser.country=en</surefire.argLine>
+    <spotbugsExclude></spotbugsExclude>
   </properties>
 
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless-maven-plugin.version}</version>
+          <configuration>
+            <java>
+              <importOrder></importOrder>
+              <removeUnusedImports></removeUnusedImports>
+              <palantirJavaFormat></palantirJavaFormat>
+            </java>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.github.ekryd.sortpom</groupId>
+          <artifactId>sortpom-maven-plugin</artifactId>
+          <version>3.0.1</version>
+          <configuration>
+            <createBackupFile>false</createBackupFile>
+            <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+            <lineSeparator>\n</lineSeparator>
+            <sortModules>true</sortModules>
+            <sortPlugins>groupId,artifactId</sortPlugins>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>${spotbugs-maven-plugin.version}</version>
+          <configuration>
+            <excludeFilterFile>${spotbugsExclude}</excludeFilterFile>
+            <skip>${disable.checks}</skip>
+            <effort>Max</effort>
+            <threshold>Low</threshold>
+            <xmlOutput>true</xmlOutput>
+            <omitVisitors>FindReturnRef,ConstructorThrow</omitVisitors>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.github.spotbugs</groupId>
+              <artifactId>spotbugs</artifactId>
+              <version>4.8.4</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>check-bugs</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>${license-maven-plugin.version}</version>
+          <configuration>
+            <properties>
+              <owner>${project.organization.name}</owner>
+            </properties>
+            <licenseSets>
+              <licenseSet>
+                <header>com/mycila/maven/plugin/license/templates/APACHE-2-noemail.txt</header>
+                <includes>
+                  <include>**/*.java</include>
+                </includes>
+              </licenseSet>
+            </licenseSets>
+            <strictCheck>true</strictCheck>
+            <mapping>
+              <java>SLASHSTAR_STYLE</java>
+            </mapping>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>de.thetaphi</groupId>
+          <artifactId>forbiddenapis</artifactId>
+          <version>${forbiddenapis.version}</version>
+          <configuration>
+            <targetVersion>${java.version}</targetVersion>
+            <signatures><![CDATA[com.google.common.base.Preconditions#checkNotNull(java.lang.Object) @ use java.util.Objects#requireNonNull(java.lang.Object) instead
+                com.google.common.collect.ImmutableList#of(java.lang.Object) @ use java.util.Collections#singletonList(java.util.Objects#requireNonNull(java.lang.Object)) instead, and also consider omitting unnecessary null-checks
+                com.google.common.collect.ImmutableSet#of(java.lang.Object) @ use java.util.Collections#singleton(java.util.Objects#requireNonNull(java.lang.Object)) instead, and also consider omitting unnecessary null-checks
+                com.google.common.collect.ImmutableList#of() @ use java.util.Collections#emptyList() instead
+                com.google.common.collect.ImmutableSet#of() @ use java.util.Collections#emptySet() instead
+
+                # According to javadoc of following methods
+                # "for Java 7 and later: this method is now unnecessary and should be treated as deprecated"
+                @defaultMessage use diamond operator instead
+                com.google.common.collect.Lists#newArrayList()
+                com.google.common.collect.Lists#newLinkedList()
+                com.google.common.collect.Maps#newHashMap()
+                com.google.common.collect.Sets#newHashSet()
+                com.google.common.base.Objects @ use java.util.Objects instead]]></signatures>
+            <!-- if the used Java version is too new, don't fail, just do nothing: -->
+            <failOnUnsupportedJava>false</failOnUnsupportedJava>
+            <ignoreSignaturesOfMissingClasses>true</ignoreSignaturesOfMissingClasses>
+            <bundledSignatures>
+              <bundledSignature>jdk-unsafe</bundledSignature>
+              <bundledSignature>jdk-deprecated</bundledSignature>
+              <bundledSignature>jdk-non-portable</bundledSignature>
+              <bundledSignature>jdk-reflection</bundledSignature>
+              <bundledSignature>jdk-internal</bundledSignature>
+              <bundledSignature>jdk-system-out</bundledSignature>
+            </bundledSignatures>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+                <goal>testCheck</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>io.sundr</groupId>
+          <artifactId>sundr-maven-plugin</artifactId>
+          <version>${sundrio-maven-plugin.version}</version>
+          <inherited>false</inherited>
+          <executions>
+            <execution>
+              <goals>
+                <goal>generate-bom</goal>
+              </goals>
+              <phase>validate</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${maven-checkstyle-plugin.version}</version>
+          <configuration>
+            <skip>${disable.checks}</skip>
+            <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+            <configLocation>config/checkstyle.xml</configLocation>
+            <consoleOutput>true</consoleOutput>
+            <failsOnError>true</failsOnError>
+            <failOnViolation>true</failOnViolation>
+            <violationSeverity>warning</violationSeverity>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>${puppycrawl-tools-checkstyle.version}</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>checkstyle-style</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -120,146 +244,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>${maven-source-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>attach-sources</id>
-              <goals>
-                <goal>jar-no-fork</goal>
-              </goals>
-              <phase>package</phase>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${maven-javadoc-plugin.version}</version>
-          <configuration>
-            <source>${maven.compiler.source}</source>
-            <encoding>${file.encoding}</encoding>
-            <doclint>none</doclint>
-            <detectLinks>false</detectLinks>
-            <detectOfflineLinks>false</detectOfflineLinks>
-          </configuration>
-          <executions>
-            <execution>
-              <id>attach-javadocs</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>${maven-jar-plugin.version}</version>
-          <configuration>
-            <archive>
-              <addMavenDescriptor>true</addMavenDescriptor>
-              <index>true</index>
-              <manifest>
-                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-              </manifest>
-            </archive>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>${maven-deploy-plugin.version}</version>
           <configuration>
             <deployAtEnd>true</deployAtEnd>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
-          <configuration>
-            <includes>
-              <include>**/*Tests.java</include>
-              <include>**/*Test.java</include>
-            </includes>
-            <excludes>
-              <exclude>**/Abstract*.java</exclude>
-            </excludes>
-            <argLine>@{jacoco.argLine} ${jvm.argLine}</argLine>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <version>${maven-failsafe-plugin.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>integration-test</goal>
-                <goal>verify</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-scm-publish-plugin</artifactId>
-          <version>${maven-scm-publish-plugin.version}</version>
-          <configuration>
-            <tryUpdate>true</tryUpdate>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>${maven.site.plugin.version}</version>
-          <!-- Execution like this will pick up in the normal site cycle -->
-          <executions>
-            <execution>
-              <id>attach-descriptor</id>
-              <goals>
-                <goal>attach-descriptor</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${maven-checkstyle-plugin.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.puppycrawl.tools</groupId>
-              <artifactId>checkstyle</artifactId>
-              <version>${puppycrawl-tools-checkstyle.version}</version>
-            </dependency>
-          </dependencies>
-          <executions>
-            <execution>
-              <id>checkstyle-validation</id>
-              <phase>validate</phase>
-              <inherited>true</inherited>
-              <configuration>
-                <skip>${disable.checks}</skip>
-                <configLocation>checkstyle/checkstyle.xml</configLocation>
-                <suppressionsLocation>checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
-                <inputEncoding>UTF-8</inputEncoding>
-                <consoleOutput>true</consoleOutput>
-                <propertyExpansion>
-                  checkstyle.build.directory=${project.build.directory}
-                </propertyExpansion>
-                <includeTestSourceDirectory>${maven-checkstyle-plugin.includeTestSourceDirectory}
-                </includeTestSourceDirectory>
-                <failsOnError>${maven-checkstyle-plugin.failsOnError}</failsOnError>
-                <failOnViolation>${maven-checkstyle-plugin.failOnViolation}</failOnViolation>
-              </configuration>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -287,7 +276,7 @@
               </goals>
               <configuration>
                 <rules>
-                  <banDuplicatePomDependencyVersions/>
+                  <banDuplicatePomDependencyVersions></banDuplicatePomDependencyVersions>
                 </rules>
               </configuration>
             </execution>
@@ -320,56 +309,121 @@
           </executions>
         </plugin>
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>versions-maven-plugin</artifactId>
-          <version>${versions-maven-plugin.version}</version>
-          <configuration>
-            <generateBackupPoms>false</generateBackupPoms>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jacoco-maven-plugin.version}</version>
-          <configuration>
-            <propertyName>jacoco.argLine</propertyName>
-            <append>true</append>
-            <excludes>
-              <exclude>META-INF/**</exclude>
-            </excludes>
-          </configuration>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven-failsafe-plugin.version}</version>
           <executions>
             <execution>
-              <id>prepare-agent</id>
               <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-              <phase>generate-test-resources</phase>
-            </execution>
-            <execution>
-              <id>report</id>
-              <phase>test</phase>
-              <goals>
-                <goal>report</goal>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
               </goals>
             </execution>
           </executions>
         </plugin>
         <plugin>
-          <groupId>org.pitest</groupId>
-          <artifactId>pitest-maven</artifactId>
-          <version>${pitest-maven.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.pitest</groupId>
-              <artifactId>pitest-junit5-plugin</artifactId>
-              <version>1.2.2</version>
-            </dependency>
-          </dependencies>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${maven-gpg-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+              <phase>verify</phase>
+              <configuration>
+                <gpgArguments>
+                  <arg>--pinentry-mode</arg>
+                  <arg>loopback</arg>
+                </gpgArguments>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
           <configuration>
-            <threads>4</threads>
-            <timestampedReports>false</timestampedReports>
-            <outputFormats>XML,HTML</outputFormats>
+            <archive>
+              <addMavenDescriptor>true</addMavenDescriptor>
+              <index>true</index>
+              <manifest>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+          <configuration>
+            <source>${maven.compiler.source}</source>
+            <encoding>${file.encoding}</encoding>
+            <doclint>none</doclint>
+            <detectLinks>false</detectLinks>
+            <detectOfflineLinks>false</detectOfflineLinks>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <version>${maven-scm-publish-plugin.version}</version>
+          <configuration>
+            <tryUpdate>true</tryUpdate>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>${maven.site.plugin.version}</version>
+          <!-- Execution like this will pick up in the normal site cycle -->
+          <executions>
+            <execution>
+              <id>attach-descriptor</id>
+              <goals>
+                <goal>attach-descriptor</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+              <phase>package</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <includes>
+              <include>**/*Tests.java</include>
+              <include>**/*Test.java</include>
+            </includes>
+            <excludes>
+              <exclude>**/Abstract*.java</exclude>
+            </excludes>
+            <argLine>@{jacoco.argLine} ${jvm.argLine}</argLine>
           </configuration>
         </plugin>
         <plugin>
@@ -394,75 +448,75 @@
           <executions>
             <execution>
               <id>flatten</id>
-              <phase>process-resources</phase>
               <goals>
                 <goal>flatten</goal>
               </goals>
+              <phase>process-resources</phase>
             </execution>
           </executions>
         </plugin>
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>build-helper-maven-plugin</artifactId>
-          <version>${build-helper-maven-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>com.github.spotbugs</groupId>
-          <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>${spotbugs-maven-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>com.mycila</groupId>
-          <artifactId>license-maven-plugin</artifactId>
-          <version>${license-maven-plugin.version}</version>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco-maven-plugin.version}</version>
           <configuration>
-            <properties>
-              <owner>${project.organization.name}</owner>
-            </properties>
-            <licenseSets>
-              <licenseSet>
-                <header>com/mycila/maven/plugin/license/templates/APACHE-2-noemail.txt</header>
-                <includes>
-                  <include>**/*.java</include>
-                </includes>
-              </licenseSet>
-            </licenseSets>
-            <strictCheck>true</strictCheck>
-            <mapping>
-              <java>SLASHSTAR_STYLE</java>
-            </mapping>
+            <propertyName>jacoco.argLine</propertyName>
+            <append>true</append>
+            <excludes>
+              <exclude>META-INF/**</exclude>
+            </excludes>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.diffplug.spotless</groupId>
-          <artifactId>spotless-maven-plugin</artifactId>
-          <version>${spotless-maven-plugin.version}</version>
-          <configuration>
-            <java>
-              <importOrder/>
-              <removeUnusedImports/>
-              <palantirJavaFormat/>
-            </java>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>${maven-gpg-plugin.version}</version>
           <executions>
             <execution>
               <goals>
-                <goal>sign</goal>
+                <goal>prepare-agent</goal>
+                <goal>prepare-agent-integration</goal>
+                <goal>report</goal>
+                <goal>report-integration</goal>
               </goals>
-              <phase>verify</phase>
+            </execution>
+            <execution>
+              <id>merge-coverage</id>
+              <goals>
+                <goal>merge</goal>
+              </goals>
+              <phase>post-integration-test</phase>
               <configuration>
-                <gpgArguments>
-                  <arg>--pinentry-mode</arg>
-                  <arg>loopback</arg>
-                </gpgArguments>
+                <fileSets>
+                  <fileSet>
+                    <directory>${project.build.directory}</directory>
+                    <includes>
+                      <include>jacoco.exec</include>
+                      <include>jacoco-it.exec</include>
+                    </includes>
+                  </fileSet>
+                </fileSets>
+                <destFile>${project.build.directory}/jacoco-all.exec</destFile>
               </configuration>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>${pitest-maven.version}</version>
+          <configuration>
+            <threads>4</threads>
+            <timestampedReports>false</timestampedReports>
+            <outputFormats>XML,HTML</outputFormats>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.pitest</groupId>
+              <artifactId>pitest-junit5-plugin</artifactId>
+              <version>${pitest-junit5-plugin.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>${sonar-maven-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.sonatype.central</groupId>
@@ -476,23 +530,9 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.sonarsource.scanner.maven</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.11.0.3922</version>
-        </plugin>
-        <plugin>
           <groupId>pl.project13.maven</groupId>
           <artifactId>git-commit-id-plugin</artifactId>
           <version>${git-commit-id-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>get-the-git-infos</id>
-              <phase>initialize</phase>
-              <goals>
-                <goal>revision</goal>
-              </goals>
-            </execution>
-          </executions>
           <configuration>
             <dateFormatTimeZone>${user.timezone}</dateFormatTimeZone>
             <failOnNoGitDirectory>false</failOnNoGitDirectory>
@@ -503,100 +543,205 @@
               <includeOnlyProperty>^git.commit.(id|message|time).*$</includeOnlyProperty>
             </includeOnlyProperties>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>de.thetaphi</groupId>
-          <artifactId>forbiddenapis</artifactId>
-          <version>3.9</version>
-          <configuration>
-            <targetVersion>${java.version}</targetVersion>
-            <signatures>
-              <![CDATA[
-                com.google.common.base.Preconditions#checkNotNull(java.lang.Object) @ use java.util.Objects#requireNonNull(java.lang.Object) instead
-                com.google.common.collect.ImmutableList#of(java.lang.Object) @ use java.util.Collections#singletonList(java.util.Objects#requireNonNull(java.lang.Object)) instead, and also consider omitting unnecessary null-checks
-                com.google.common.collect.ImmutableSet#of(java.lang.Object) @ use java.util.Collections#singleton(java.util.Objects#requireNonNull(java.lang.Object)) instead, and also consider omitting unnecessary null-checks
-                com.google.common.collect.ImmutableList#of() @ use java.util.Collections#emptyList() instead
-                com.google.common.collect.ImmutableSet#of() @ use java.util.Collections#emptySet() instead
-
-                # According to javadoc of following methods
-                # "for Java 7 and later: this method is now unnecessary and should be treated as deprecated"
-                @defaultMessage use diamond operator instead
-                com.google.common.collect.Lists#newArrayList()
-                com.google.common.collect.Lists#newLinkedList()
-                com.google.common.collect.Maps#newHashMap()
-                com.google.common.collect.Sets#newHashSet()
-                com.google.common.base.Objects @ use java.util.Objects instead
-                ]]>
-            </signatures>
-            <!-- if the used Java version is too new, don't fail, just do nothing: -->
-            <failOnUnsupportedJava>false</failOnUnsupportedJava>
-            <ignoreSignaturesOfMissingClasses>true</ignoreSignaturesOfMissingClasses>
-            <bundledSignatures>
-              <bundledSignature>jdk-unsafe</bundledSignature>
-              <bundledSignature>jdk-deprecated</bundledSignature>
-              <bundledSignature>jdk-non-portable</bundledSignature>
-              <bundledSignature>jdk-reflection</bundledSignature>
-              <bundledSignature>jdk-internal</bundledSignature>
-              <bundledSignature>jdk-system-out</bundledSignature>
-            </bundledSignatures>
-          </configuration>
           <executions>
             <execution>
+              <id>get-the-git-infos</id>
               <goals>
-                <goal>check</goal>
-                <goal>testCheck</goal>
+                <goal>revision</goal>
               </goals>
+              <phase>initialize</phase>
             </execution>
           </executions>
-        </plugin>
-        <plugin>
-          <groupId>io.sundr</groupId>
-          <artifactId>sundr-maven-plugin</artifactId>
-          <version>${sundrio-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <phase>validate</phase>
-              <goals>
-                <goal>generate-bom</goal>
-              </goals>
-            </execution>
-          </executions>
-          <inherited>false</inherited>
         </plugin>
       </plugins>
     </pluginManagement>
 
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>pl.project13.maven</groupId>
-        <artifactId>git-commit-id-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>de.thetaphi</groupId>
-        <artifactId>forbiddenapis</artifactId>
-      </plugin>
-      <plugin>
         <groupId>io.sundr</groupId>
         <artifactId>sundr-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
+
+  <!-- Note that reporting may fail with lower settings than something like: MAVEN_OPTS="-X512m -XX:MaxPermSize=128m" -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <inherited>false</inherited>
+        <reportSets>
+          <reportSet>
+            <id>javadoc-aggregate</id>
+            <reports>
+              <report>aggregate-no-fork</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.6.0</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>jxr-no-fork</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>${maven-project-info-reports-plugin.version}</version>
+        <!-- Disable, just to make it go faster -->
+        <configuration>
+          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report-only</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>${taglist-maven-plugin.version}</version>
+        <configuration>
+          <tagListOptions>
+            <tagClasses>
+              <tagClass>
+                <displayName>Todo Work</displayName>
+                <tags>
+                  <tag>
+                    <matchString>TODO</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>FIXME</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+              <tagClass>
+                <displayName>Deprecated</displayName>
+                <tags>
+                  <tag>
+                    <matchString>@Deprecated</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+            </tagClasses>
+          </tagListOptions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <id>jacoco-aggregate</id>
+            <reports>
+              <report>report-integration</report>
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+  <url>https://github.com/rose-group/rose-build</url>
+  <inceptionYear>2025</inceptionYear>
+
+  <organization>
+    <name>rose-group inc</name>
+    <url>https://github.com/rose-group</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>chensoul</name>
+      <email>ichensoul@gmail.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/rose-group/rose-build.git</connection>
+    <developerConnection>scm:git:https://github.com/rose-group/rose-build.git</developerConnection>
+    <url>https://github.com/rose-group/rose-build.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>central</id>
+      <name>central-snapshot</name>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+    <site>
+      <id>github</id>
+      <url>${project.scm.developerConnection}</url>
+    </site>
+  </distributionManagement>
 
   <profiles>
     <profile>
@@ -605,15 +750,15 @@
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
           </plugin>
           <plugin>
             <groupId>org.sonatype.central</groupId>
@@ -641,16 +786,16 @@
     </profile>
 
     <profile>
-      <id>test</id>
+      <id>quality</id>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
           </plugin>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
+            <groupId>de.thetaphi</groupId>
+            <artifactId>forbiddenapis</artifactId>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -675,179 +820,5 @@
         </plugins>
       </build>
     </profile>
-
-    <profile>
-      <id>java9+</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <properties>
-        <maven.compiler.release>${java.version}</maven.compiler.release>
-      </properties>
-    </profile>
-
-    <profile>
-      <id>java11</id>
-      <activation>
-        <jdk>[11,)</jdk>
-      </activation>
-      <properties>
-        <license-maven-plugin.version>5.0.0</license-maven-plugin.version>
-        <pitest-maven.version>1.18.0</pitest-maven.version>
-        <spotless-maven-plugin.version>2.44.4</spotless-maven-plugin.version>
-        <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
-        <sundrio-maven-plugin.version>0.200.3</sundrio-maven-plugin.version>
-      </properties>
-    </profile>
-
-    <profile>
-      <id>java9-15</id>
-      <activation>
-        <jdk>[9,15]</jdk>
-      </activation>
-      <properties>
-        <jvm.argLine>
-          --illegal-access=permit
-        </jvm.argLine>
-      </properties>
-    </profile>
-
-    <profile>
-      <id>java16+</id>
-      <activation>
-        <jdk>[16,)</jdk>
-      </activation>
-      <properties>
-        <jvm.argLine>
-          --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
-        </jvm.argLine>
-      </properties>
-    </profile>
   </profiles>
-
-  <!-- Note that reporting may fail with lower settings than something like: MAVEN_OPTS="-X512m -XX:MaxPermSize=128m" -->
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <inherited>false</inherited>
-        <reportSets>
-          <reportSet>
-            <id>javadoc-aggregate</id>
-            <reports>
-              <report>aggregate-no-fork</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>${maven-project-info-reports-plugin.version}</version>
-        <!-- Disable, just to make it go faster -->
-        <configuration>
-          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>${maven-surefire-plugin.version}</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>report-only</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <id>jacoco-aggregate</id>
-            <reports>
-              <report>report-integration</report>
-              <report>report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>${maven-jxr-plugin.version}</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>jxr-no-fork</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-        <version>3.2.1</version>
-        <configuration>
-          <tagListOptions>
-            <tagClasses>
-              <tagClass>
-                <displayName>Todo Work</displayName>
-                <tags>
-                  <tag>
-                    <matchString>todo</matchString>
-                    <matchType>ignoreCase</matchType>
-                  </tag>
-                  <tag>
-                    <matchString>FIXME</matchString>
-                    <matchType>exact</matchType>
-                  </tag>
-                </tags>
-              </tagClass>
-              <tagClass>
-                <displayName>Deprecated</displayName>
-                <tags>
-                  <tag>
-                    <matchString>@Deprecated</matchString>
-                    <matchType>exact</matchType>
-                  </tag>
-                </tags>
-              </tagClass>
-            </tagClasses>
-          </tagListOptions>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jdepend-maven-plugin</artifactId>
-        <version>2.1</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>generate-no-fork</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>central</id>
-      <name>central-snapshot</name>
-      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-    </snapshotRepository>
-    <site>
-      <id>github</id>
-      <url>${project.scm.developerConnection}</url>
-    </site>
-  </distributionManagement>
 </project>
