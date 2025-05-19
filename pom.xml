@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rose-group</groupId>
   <artifactId>rose-build</artifactId>
@@ -74,7 +75,8 @@
     <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
     <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
     <maven-scm-publish-plugin.version>3.3.0</maven-scm-publish-plugin.version>
-    <maven.site.plugin.version>3.21.0</maven.site.plugin.version>
+    <!-- 使用 4.X 版本会出现 CRLF would be replaced by LF in fonts/glyphicons-halflings-regular.svg -->
+    <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
     <pitest-maven.version>1.17.4</pitest-maven.version>
@@ -243,7 +245,6 @@
           <configuration>
             <skip>${disable.checks}</skip>
             <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
-            <configLocation>config/checkstyle.xml</configLocation>
             <consoleOutput>true</consoleOutput>
             <failsOnError>true</failsOnError>
             <failOnViolation>true</failOnViolation>
@@ -422,7 +423,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>${maven.site.plugin.version}</version>
+          <version>${maven-site-plugin.version}</version>
           <!-- Execution like this will pick up in the normal site cycle -->
           <executions>
             <execution>
