@@ -64,7 +64,6 @@
     <forbiddenapis.version>3.9</forbiddenapis.version>
     <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-    <!-- license for java 8 -->
     <license-maven-plugin.version>4.6</license-maven-plugin.version>
     <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
     <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
@@ -81,6 +80,7 @@
     <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
     <pitest-maven.version>1.17.4</pitest-maven.version>
     <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
+    <sortpom-maven-plugin.version>3.0.1</sortpom-maven-plugin.version>
     <spotbugs-maven-plugin.version>4.8.4.0</spotbugs-maven-plugin.version>
     <spotless-maven-plugin.version>2.22.8</spotless-maven-plugin.version>
     <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
@@ -126,7 +126,7 @@
         <plugin>
           <groupId>com.github.ekryd.sortpom</groupId>
           <artifactId>sortpom-maven-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>${sortpom-maven-plugin.version}</version>
           <configuration>
             <createBackupFile>false</createBackupFile>
             <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
