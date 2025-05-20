@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rose-group</groupId>
   <artifactId>rose-build</artifactId>
@@ -8,7 +9,7 @@
 
   <name>Rose :: Build</name>
   <description>Rose Build POM</description>
-  <url>https://github.com/rose-group/rose-build</url>
+  <url>https://rose-group.github.io/rose-build</url>
   <inceptionYear>2025</inceptionYear>
 
   <organization>
@@ -32,10 +33,10 @@
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/rose-group/rose-build.git</connection>
-    <developerConnection>scm:git:https://github.com/rose-group/rose-build.git</developerConnection>
+    <connection>scm:git:https://github.com/rose-group/rose-build</connection>
+    <developerConnection>scm:git:https://github.com/rose-group/rose-build</developerConnection>
     <tag>HEAD</tag>
-    <url>https://github.com/rose-group/rose-build.git</url>
+    <url>https://github.com/rose-group/rose-build</url>
   </scm>
 
   <distributionManagement>
@@ -96,10 +97,11 @@
     <!-- maven-scm-publish-plugin -->
     <scmpublish.content>${project.reporting.outputDirectory}</scmpublish.content>
     <scmpublish.pubScmUrl>${project.scm.developerConnection}</scmpublish.pubScmUrl>
+    <scmpublish.serverId>github</scmpublish.serverId>
     <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
 
     <!-- maven-checkstyle-plugin -->
-    <disable.checks>true</disable.checks>
+    <disable.checks>false</disable.checks>
 
     <jvm.argLine></jvm.argLine>
     <jacoco.argLine></jacoco.argLine>
@@ -243,11 +245,15 @@
           <version>${maven-checkstyle-plugin.version}</version>
           <configuration>
             <skip>${disable.checks}</skip>
-            <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+            <propertyExpansion>
+              checkstyle.build.directory=${project.build.directory}
+            </propertyExpansion>
+            <configLocation>config/checkstyle.xml</configLocation>
+            <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
             <consoleOutput>true</consoleOutput>
             <failsOnError>true</failsOnError>
-            <failOnViolation>true</failOnViolation>
             <violationSeverity>warning</violationSeverity>
+            <includeTestSourceDirectory>false</includeTestSourceDirectory>
           </configuration>
           <dependencies>
             <dependency>
@@ -312,7 +318,7 @@
               </goals>
               <configuration>
                 <rules>
-                  <banDuplicatePomDependencyVersions></banDuplicatePomDependencyVersions>
+                  <banDuplicatePomDependencyVersions/>
                 </rules>
               </configuration>
             </execution>
@@ -666,8 +672,10 @@
         <version>3.6.0</version>
         <reportSets>
           <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
             <reports>
-              <report>jxr-no-fork</report>
+              <report>aggregate</report>
             </reports>
           </reportSet>
         </reportSets>
