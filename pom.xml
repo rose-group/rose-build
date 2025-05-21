@@ -87,7 +87,7 @@
     <taglist-maven-plugin.version>3.2.1</taglist-maven-plugin.version>
 
     <puppycrawl-tools-checkstyle.version>8.45.1</puppycrawl-tools-checkstyle.version>
-    <pitest-junit5-plugin.version>1.2.2</pitest-junit5-plugin.version>
+    <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
 
     <!-- Sonar settings -->
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
