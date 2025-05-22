@@ -89,7 +89,7 @@ The root project's pom.xml should set the parent as follows:
 <parent>
     <groupId>io.github.rosestack</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.14</version>
+    <version>0.0.1</version>
 </parent>
 ```
 
