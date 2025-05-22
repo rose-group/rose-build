@@ -82,13 +82,13 @@
     <pitest-maven.version>1.17.4</pitest-maven.version>
     <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
     <sortpom-maven-plugin.version>3.0.1</sortpom-maven-plugin.version>
-    <spotbugs-maven-plugin.version>4.8.4.0</spotbugs-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
     <spotless-maven-plugin.version>2.22.8</spotless-maven-plugin.version>
     <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
     <taglist-maven-plugin.version>3.2.1</taglist-maven-plugin.version>
 
     <puppycrawl-tools-checkstyle.version>8.45.1</puppycrawl-tools-checkstyle.version>
-    <pitest-junit5-plugin.version>1.2.2</pitest-junit5-plugin.version>
+    <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
 
     <!-- Sonar settings -->
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -150,7 +150,7 @@
             <dependency>
               <groupId>com.github.spotbugs</groupId>
               <artifactId>spotbugs</artifactId>
-              <version>4.8.4</version>
+              <version>4.8.6</version>
             </dependency>
           </dependencies>
           <executions>
