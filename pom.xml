@@ -2,19 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.github.rose-group</groupId>
+  <groupId>io.github.rosestack</groupId>
   <artifactId>rose-build</artifactId>
   <version>0.0.15-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Rose :: Build</name>
   <description>Rose Build POM</description>
-  <url>https://rose-group.github.io/rose-build</url>
+  <url>https://rosestack.github.io/rose-build</url>
   <inceptionYear>2025</inceptionYear>
 
   <organization>
-    <name>rose-group inc</name>
-    <url>https://github.com/rose-group</url>
+    <name>rosestack inc</name>
+    <url>https://github.com/rosestack</url>
   </organization>
 
   <licenses>
@@ -33,10 +33,10 @@
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/rose-group/rose-build</connection>
-    <developerConnection>scm:git:https://github.com/rose-group/rose-build</developerConnection>
+    <connection>scm:git:https://github.com/rosestack/rose-build</connection>
+    <developerConnection>scm:git:https://github.com/rosestack/rose-build</developerConnection>
     <tag>HEAD</tag>
-    <url>https://github.com/rose-group/rose-build</url>
+    <url>https://github.com/rosestack/rose-build</url>
   </scm>
 
   <distributionManagement>
@@ -92,7 +92,7 @@
 
     <!-- Sonar settings -->
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    <sonar.organization>rose-group</sonar.organization>
+    <sonar.organization>rosestack</sonar.organization>
 
     <!-- maven-scm-publish-plugin -->
     <scmpublish.content>${project.reporting.outputDirectory}</scmpublish.content>
@@ -639,6 +639,10 @@
         <groupId>pl.project13.maven</groupId>
         <artifactId>git-commit-id-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 
@@ -770,23 +774,6 @@
           <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>sonar</id>
-      <properties>
-        <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
-        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
-        <sonar.test.exclusions>**/test/resources/**/*,**/it/resources/**/*</sonar.test.exclusions>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.sonarsource.scanner.maven</groupId>
-            <artifactId>sonar-maven-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
