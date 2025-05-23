@@ -57,7 +57,7 @@
     </snapshotRepository>
     <site>
       <id>github</id>
-      <!--如果使用 ssh，会提示 vpn 无法连接-->
+      <!--如果使用 ssh，mvn scm-publish:publish-scm 会提示 vpn 无法连接-->
       <url>scm:git:https://github.com/rosestack/rose-build.git</url>
     </site>
   </distributionManagement>
