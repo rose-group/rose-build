@@ -1,0 +1,11 @@
+name: Pull requests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  verify:
+    name: Verify
+    uses: rosestack/.github/.github/workflows/maven-pr.yml@main
