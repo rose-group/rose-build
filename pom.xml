@@ -57,7 +57,8 @@
     </snapshotRepository>
     <site>
       <id>github</id>
-      <url>scm:git:git@github.com:rosestack/rose-build.git</url>
+      <!--如果使用 ssh，会提示 vpn 无法连接-->
+      <url>scm:git:https://github.com/rosestack/rose-build.git</url>
     </site>
   </distributionManagement>
 
@@ -434,6 +435,7 @@
           <artifactId>maven-scm-publish-plugin</artifactId>
           <version>${maven-scm-publish-plugin.version}</version>
           <configuration>
+            <tryUpdate>true</tryUpdate>
             <scmBranch>gh-pages</scmBranch>
           </configuration>
         </plugin>

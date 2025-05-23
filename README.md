@@ -42,22 +42,10 @@ mvn clean verify
 
 ### Site
 
-Building single-module site:
-
-```bash
-mvn site:site
-```
-
-Building multi-module sites:
-
-```bash
-mvn site:site site:stage
-```
-
 Upload sites to gitHub pages:
 
 ```bash
-mvn --update-snapshots clean site scm-publish:publish-scm -Dscmpublish.serverId=github
+mvn clean site site:stage scm-publish:publish-scm 
 ```
 
 ### Release
@@ -78,7 +66,7 @@ mvn -DskipTests -Prelease deploy
 
 ```bash
 mvn verify -Pcoverage javadoc:javadoc
-mvn sonar:sonar -Psonar -Dsonar.token=$SONAR_TOKEN
+mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN
 ```
 
 ## Usage
