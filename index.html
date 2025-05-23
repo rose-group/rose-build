@@ -31,7 +31,7 @@
 
     <li class="active">Rose Build POM</li>
         <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2025-05-23</li>
-          <li id="projectVersion" class="pull-right">Version: 0.0.1-SNAPSHOT</li>
+          <li id="projectVersion" class="pull-right">Version: 0.0.2</li>
           </ul>
         </div>
       </header>
@@ -43,7 +43,21 @@
     <li class="active"><a>Introduction</a></li>
     <li><a href="key-prepare.html">Private key preparation</a></li>
    <li class="nav-header">Project Documentation</li>
-    <li><a href="project-info.html"><span class="icon-chevron-right"></span>Project Information</a></li>
+    <li><a href="project-info.html"><span class="icon-chevron-down"></span>Project Information</a>
+     <ul class="nav nav-list">
+      <li><a href="ci-management.html">CI Management</a></li>
+      <li><a href="dependency-info.html">Maven Coordinates</a></li>
+      <li><a href="distribution-management.html">Distribution Management</a></li>
+      <li class="active"><a>About</a></li>
+      <li><a href="issue-management.html">Issue Management</a></li>
+      <li><a href="licenses.html">Licenses</a></li>
+      <li><a href="plugin-management.html">Plugin Management</a></li>
+      <li><a href="plugins.html">Plugins</a></li>
+      <li><a href="scm.html">Source Code Management</a></li>
+      <li><a href="summary.html">Summary</a></li>
+      <li><a href="team.html">Team</a></li>
+     </ul></li>
+    <li><a href="project-reports.html"><span class="icon-chevron-right"></span>Project Reports</a></li>
   </ul>
           </nav>
           <div class="well sidebar-nav">
@@ -116,7 +130,7 @@ mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN
 <pre class="prettyprint"><code class="language-xml">&lt;parent&gt;
     &lt;groupId&gt;io.github.rosestack&lt;/groupId&gt;
     &lt;artifactId&gt;rose-build&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1&lt;/version&gt;
+    &lt;version&gt;0.0.2&lt;/version&gt;
 &lt;/parent&gt;
 </code></pre></section></section></section>        </main>
       </div>
