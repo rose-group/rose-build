@@ -34,7 +34,8 @@
 
   <scm>
     <connection>scm:git:git@github.com:rosestack/rose-build</connection>
-    <developerConnection>scm:git:https://github.com/rosestack/rose-build.git</developerConnection>
+    <!-- 生成 site 时会使用相对地址，故去掉 .git 后缀-->
+    <developerConnection>scm:git:https://github.com/rosestack/rose-build</developerConnection>
     <tag>HEAD</tag>
     <url>https://github.com/rosestack/rose-build</url>
   </scm>
@@ -233,7 +234,6 @@
           <artifactId>git-commit-id-maven-plugin</artifactId>
           <version>${git-commit-id-maven-plugin.version}</version>
           <configuration>
-            <verbose>true</verbose>
             <dateFormatTimeZone>${user.timezone}</dateFormatTimeZone>
             <failOnNoGitDirectory>false</failOnNoGitDirectory>
             <generateGitPropertiesFile>true</generateGitPropertiesFile>
@@ -245,6 +245,8 @@
           </configuration>
           <executions>
             <execution>
+              <id>get-the-git-infos</id>
+              <phase>initialize</phase>
               <goals>
                 <goal>revision</goal>
               </goals>
@@ -639,26 +641,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <configuration>
-          <linkOnly>true</linkOnly>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>ci-management</report>
-              <report>dependencies</report>
-              <report>dependency-info</report>
-              <report>issue-management</report>
-              <report>licenses</report>
-              <report>mailing-lists</report>
-              <report>modules</report>
-              <report>plugins</report>
-              <report>team</report>
-              <report>scm</report>
-              <report>summary</report>
-            </reports>
-          </reportSet>
-        </reportSets>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
