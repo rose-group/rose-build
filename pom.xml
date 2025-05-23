@@ -58,7 +58,7 @@
     <site>
       <id>github</id>
       <!--如果使用 ssh，mvn scm-publish:publish-scm 会提示 vpn 无法连接-->
-      <url>scm:git:https://github.com/rosestack/rose-build.git</url>
+      <url>${project.scm.developerConnection}</url>
     </site>
   </distributionManagement>
 
@@ -76,7 +76,6 @@
     <git-commit-id-maven-plugin.version>4.9.9</git-commit-id-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
     <license-maven-plugin.version>4.6</license-maven-plugin.version>
-    <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
     <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
     <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
@@ -102,14 +101,11 @@
     <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
     <versions-maven-plugin.version>2.17.1</versions-maven-plugin.version>
 
-    <puppycrawl-tools-checkstyle.version>8.45.1</puppycrawl-tools-checkstyle.version>
     <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
 
     <!-- Sonar settings -->
     <sonar.organization>rosestack</sonar.organization>
     <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
-
-    <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
 
     <jvm.argLine></jvm.argLine>
     <jacoco.argLine></jacoco.argLine>
@@ -148,7 +144,6 @@
           <artifactId>spotbugs-maven-plugin</artifactId>
           <version>${spotbugs-maven-plugin.version}</version>
           <configuration>
-            <skip>${disable.checks}</skip>
             <effort>Max</effort>
             <threshold>Low</threshold>
             <xmlOutput>true</xmlOutput>
@@ -267,36 +262,6 @@
                 <goal>generate-bom</goal>
               </goals>
               <phase>validate</phase>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${maven-checkstyle-plugin.version}</version>
-          <configuration>
-            <skip>${disable.checks}</skip>
-            <propertyExpansion>checkstyle.build.directory=${project.build.directory}</propertyExpansion>
-            <configLocation>config/checkstyle.xml</configLocation>
-            <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
-            <consoleOutput>true</consoleOutput>
-            <failsOnError>true</failsOnError>
-            <violationSeverity>warning</violationSeverity>
-            <includeTestSourceDirectory>false</includeTestSourceDirectory>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>com.puppycrawl.tools</groupId>
-              <artifactId>checkstyle</artifactId>
-              <version>${puppycrawl-tools-checkstyle.version}</version>
-            </dependency>
-          </dependencies>
-          <executions>
-            <execution>
-              <id>checkstyle-style</id>
-              <goals>
-                <goal>check</goal>
-              </goals>
             </execution>
           </executions>
         </plugin>
@@ -445,7 +410,7 @@
           <version>${maven-site-plugin.version}</version>
           <configuration>
             <skipDeploy>true</skipDeploy>
-            <!--            <topSiteURL>${project.scm.connection}</topSiteURL>-->
+            <topSiteURL>${project.scm.developerConnection}</topSiteURL>
           </configuration>
           <executions>
             <execution>
@@ -636,41 +601,37 @@
   <!-- Note that reporting may fail with lower settings than something like: MAVEN_OPTS="-X512m -XX:MaxPermSize=128m" -->
   <reporting>
     <plugins>
-      <!--      <plugin>-->
-      <!--        <groupId>com.github.spotbugs</groupId>-->
-      <!--        <artifactId>spotbugs-maven-plugin</artifactId>-->
-      <!--      </plugin>-->
-      <!--      <plugin>-->
-      <!--        <groupId>org.apache.maven.plugins</groupId>-->
-      <!--        <artifactId>maven-checkstyle-plugin</artifactId>-->
-      <!--      </plugin>-->
-      <!--      <plugin>-->
-      <!--        <groupId>org.apache.maven.plugins</groupId>-->
-      <!--        <artifactId>maven-javadoc-plugin</artifactId>-->
-      <!--        <inherited>false</inherited>-->
-      <!--        <reportSets>-->
-      <!--          <reportSet>-->
-      <!--            <id>javadoc-aggregate</id>-->
-      <!--            <reports>-->
-      <!--              <report>aggregate-no-fork</report>-->
-      <!--            </reports>-->
-      <!--          </reportSet>-->
-      <!--        </reportSets>-->
-      <!--      </plugin>-->
-      <!--      <plugin>-->
-      <!--        <groupId>org.apache.maven.plugins</groupId>-->
-      <!--        <artifactId>maven-jxr-plugin</artifactId>-->
-      <!--        <version>3.6.0</version>-->
-      <!--        <reportSets>-->
-      <!--          <reportSet>-->
-      <!--            <id>aggregate</id>-->
-      <!--            <reports>-->
-      <!--              <report>aggregate</report>-->
-      <!--            </reports>-->
-      <!--            <inherited>false</inherited>-->
-      <!--          </reportSet>-->
-      <!--        </reportSets>-->
-      <!--      </plugin>-->
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <inherited>false</inherited>
+        <reportSets>
+          <reportSet>
+            <id>javadoc-aggregate</id>
+            <reports>
+              <report>aggregate-no-fork</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.6.0</version>
+        <reportSets>
+          <reportSet>
+            <id>aggregate</id>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+            <inherited>false</inherited>
+          </reportSet>
+        </reportSets>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-report-plugin</artifactId>
@@ -699,31 +660,31 @@
           </reportSet>
         </reportSets>
       </plugin>
-      <!--      <plugin>-->
-      <!--        <groupId>org.apache.maven.plugins</groupId>-->
-      <!--        <artifactId>maven-surefire-report-plugin</artifactId>-->
-      <!--        <version>${maven-surefire-plugin.version}</version>-->
-      <!--        <reportSets>-->
-      <!--          <reportSet>-->
-      <!--            <reports>-->
-      <!--              <report>report-only</report>-->
-      <!--            </reports>-->
-      <!--          </reportSet>-->
-      <!--        </reportSets>-->
-      <!--      </plugin>-->
-      <!--      <plugin>-->
-      <!--        <groupId>org.jacoco</groupId>-->
-      <!--        <artifactId>jacoco-maven-plugin</artifactId>-->
-      <!--        <reportSets>-->
-      <!--          <reportSet>-->
-      <!--            <id>jacoco-aggregate</id>-->
-      <!--            <reports>-->
-      <!--              <report>report-integration</report>-->
-      <!--              <report>report</report>-->
-      <!--            </reports>-->
-      <!--          </reportSet>-->
-      <!--        </reportSets>-->
-      <!--      </plugin>-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report-only</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <id>jacoco-aggregate</id>
+            <reports>
+              <report>report-integration</report>
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
     </plugins>
   </reporting>
 
@@ -779,10 +740,6 @@
           <plugin>
             <groupId>de.thetaphi</groupId>
             <artifactId>forbiddenapis</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-checkstyle-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
