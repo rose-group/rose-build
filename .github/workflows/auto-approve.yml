@@ -7,4 +7,4 @@ jobs:
   auto-approve:
     uses: rosestack/.github/.github/workflows/auto-approve.yml@main
     secrets:
-      TECH_TOKEN: ${{ secrets.TECH_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
