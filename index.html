@@ -91,17 +91,9 @@
 <pre class="prettyprint"><code class="language-bash">mvn clean verify
 </code></pre></section><section><a id="Site"></a>
 <h3>Site</h3>
-<p>Building single-module site:</p>
-
-<pre class="prettyprint"><code class="language-bash">mvn site:site
-</code></pre>
-<p>Building multi-module sites:</p>
-
-<pre class="prettyprint"><code class="language-bash">mvn site:site site:stage
-</code></pre>
 <p>Upload sites to gitHub pages:</p>
 
-<pre class="prettyprint"><code class="language-bash">mvn --update-snapshots clean site scm-publish:publish-scm -Dscmpublish.serverId=github
+<pre class="prettyprint"><code class="language-bash">mvn clean site site:stage scm-publish:publish-scm 
 </code></pre></section><section><a id="Release"></a>
 <h3>Release</h3>
 <p>Update Release version:</p>
@@ -115,7 +107,7 @@
 <h3>Sonar</h3>
 
 <pre class="prettyprint"><code class="language-bash">mvn verify -Pcoverage javadoc:javadoc
-mvn sonar:sonar -Psonar -Dsonar.token=$SONAR_TOKEN
+mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN
 </code></pre></section></section><section><a id="Usage"></a>
 <h2>Usage</h2><section><a id="Java_8.2B_Maven_Project"></a>
 <h3>Java 8+ Maven Project</h3>
