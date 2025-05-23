@@ -83,3 +83,8 @@ The root project's pom.xml should set the parent as follows:
 </parent>
 ```
 
+## References
+
+- https://github.com/apache/maven-fluido-skin/
+- https://github.com/s4u/parent
+
