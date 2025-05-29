@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rosestack</groupId>
   <artifactId>rose-build</artifactId>
-  <version>0.0.6-SNAPSHOT</version>
+  <version>0.0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Rose Build POM</name>
@@ -31,7 +32,8 @@
     </developer>
   </developers>
 
-  <scm child.scm.url.inherit.append.path="false" child.scm.developerConnection.inherit.append.path="false" child.scm.connection.inherit.append.path="false">
+  <scm child.scm.url.inherit.append.path="false" child.scm.developerConnection.inherit.append.path="false"
+       child.scm.connection.inherit.append.path="false">
     <connection>scm:git:git@github.com:rosestack/rose-build</connection>
     <!-- 生成 site 时会使用相对地址，故去掉 .git 后缀-->
     <developerConnection>scm:git:https://github.com/rosestack/rose-build</developerConnection>
@@ -110,9 +112,9 @@
           <version>${spotless-maven-plugin.version}</version>
           <configuration>
             <java>
-              <importOrder />
-              <removeUnusedImports />
-              <palantirJavaFormat />
+              <importOrder/>
+              <removeUnusedImports/>
+              <palantirJavaFormat/>
             </java>
           </configuration>
         </plugin>
@@ -258,7 +260,7 @@
           <version>${maven-enforcer-plugin.version}</version>
           <configuration>
             <rules>
-              <dependencyConvergence />
+              <dependencyConvergence/>
               <requireJavaVersion>
                 <version>${maven.compiler.target}</version>
               </requireJavaVersion>
@@ -339,6 +341,7 @@
             <releaseProfiles>release</releaseProfiles>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <tagNameFormat>v@{project.version}</tagNameFormat>
+            <scmCommentPrefix>[CI Skip]</scmCommentPrefix>
           </configuration>
         </plugin>
         <plugin>
