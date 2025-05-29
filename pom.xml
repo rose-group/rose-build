@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rosestack</groupId>
   <artifactId>rose-build</artifactId>
@@ -32,8 +31,7 @@
     </developer>
   </developers>
 
-  <scm child.scm.url.inherit.append.path="false" child.scm.developerConnection.inherit.append.path="false"
-       child.scm.connection.inherit.append.path="false">
+  <scm child.scm.connection.inherit.append.path="false" child.scm.developerConnection.inherit.append.path="false" child.scm.url.inherit.append.path="false">
     <connection>scm:git:git@github.com:rosestack/rose-build</connection>
     <!-- 生成 site 时会使用相对地址，故去掉 .git 后缀-->
     <developerConnection>scm:git:https://github.com/rosestack/rose-build</developerConnection>
@@ -112,9 +110,9 @@
           <version>${spotless-maven-plugin.version}</version>
           <configuration>
             <java>
-              <importOrder/>
-              <removeUnusedImports/>
-              <palantirJavaFormat/>
+              <importOrder></importOrder>
+              <removeUnusedImports></removeUnusedImports>
+              <palantirJavaFormat></palantirJavaFormat>
             </java>
           </configuration>
         </plugin>
@@ -260,7 +258,7 @@
           <version>${maven-enforcer-plugin.version}</version>
           <configuration>
             <rules>
-              <dependencyConvergence/>
+              <dependencyConvergence></dependencyConvergence>
               <requireJavaVersion>
                 <version>${maven.compiler.target}</version>
               </requireJavaVersion>
@@ -272,10 +270,10 @@
           <executions>
             <execution>
               <id>enforce</id>
-              <phase>validate</phase>
               <goals>
                 <goal>enforce</goal>
               </goals>
+              <phase>validate</phase>
             </execution>
           </executions>
         </plugin>
@@ -448,10 +446,10 @@
             </execution>
             <execution>
               <id>report</id>
-              <phase>test</phase>
               <goals>
                 <goal>report</goal>
               </goals>
+              <phase>test</phase>
             </execution>
           </executions>
         </plugin>
@@ -484,8 +482,16 @@
         <artifactId>sortpom-maven-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>de.thetaphi</groupId>
+        <artifactId>forbiddenapis</artifactId>
       </plugin>
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
@@ -516,20 +522,12 @@
         <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>de.thetaphi</groupId>
-        <artifactId>forbiddenapis</artifactId>
-      </plugin>
-      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
@@ -541,6 +539,10 @@
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
           </plugin>
           <plugin>
@@ -550,10 +552,6 @@
           <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
