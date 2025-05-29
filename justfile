@@ -1,11 +1,11 @@
 all:
     mvn clean install
 
-core:
-    mvn install
+verify:
+    mvn verify
 
 skip-plugins:
-    mvn clean install -Djavadoc.skip -Dmaven.javadoc.skip
+    mvn clean install -Djavadoc.skip
 
 test:
     mvn test
