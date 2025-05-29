@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rosestack</groupId>
   <artifactId>rose-build</artifactId>
-  <version>0.0.5</version>
+  <version>0.0.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Rose Build POM</name>
@@ -35,7 +35,7 @@
     <connection>scm:git:git@github.com:rosestack/rose-build</connection>
     <!-- 生成 site 时会使用相对地址，故去掉 .git 后缀-->
     <developerConnection>scm:git:https://github.com/rosestack/rose-build</developerConnection>
-    <tag>v0.0.5</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/rosestack/rose-build</url>
   </scm>
 
