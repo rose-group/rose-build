@@ -87,4 +87,5 @@ The root project's pom.xml should set the parent as follows:
 
 - https://github.com/apache/maven-fluido-skin/
 - https://github.com/s4u/parent
+- https://github.com/instancio/instancio
 

@@ -12,7 +12,7 @@
   <inceptionYear>2025</inceptionYear>
 
   <organization>
-    <name>rosestack</name>
+    <name>RoseStack</name>
     <url>https://github.com/rosestack</url>
   </organization>
 
@@ -435,8 +435,6 @@
             <excludes>
               <exclude>META-INF/**</exclude>
             </excludes>
-            <propertyName>jacoco.argLine</propertyName>
-            <append>true</append>
           </configuration>
           <executions>
             <execution>
