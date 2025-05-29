@@ -3,7 +3,6 @@
 ![License](https://img.shields.io/github/license/rosestack/rose-build.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=io.github.rosestack%3Arose-build&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=io.github.rosestack%3Arose-build)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=io.github.rosestack%3Arose-build&metric=coverage)](https://sonarcloud.io/dashboard?id=io.github.rosestack%3Arose-build)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=io.github.rosestack%3Arose-build&metric=ncloc)](https://sonarcloud.io/dashboard?id=io.github.rosestack%3Arose-build)
 [![codecov.io](https://codecov.io/github/rosestack/rose-build/coverage.svg?branch=main)](https://codecov.io/github/rosestack/rose-build?branch=main)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rosestack/rose-build.svg)](http://isitmaintained.com/project/rosestack/rose-build "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/rosestack/rose-build.svg)](http://isitmaintained.com/project/rosestack/rose-build "Percentage of issues still open")
