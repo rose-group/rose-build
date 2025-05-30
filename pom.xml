@@ -110,6 +110,12 @@
           <artifactId>spotless-maven-plugin</artifactId>
           <version>${spotless-maven-plugin.version}</version>
           <configuration>
+            <markdown>
+              <includes>
+                <include>**/*.md</include>
+              </includes>
+              <flexmark/>
+            </markdown>
             <java>
               <importOrder></importOrder>
               <removeUnusedImports></removeUnusedImports>
