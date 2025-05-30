@@ -122,6 +122,15 @@
               <palantirJavaFormat></palantirJavaFormat>
             </java>
           </configuration>
+          <executions>
+            <execution>
+              <id>apply</id>
+              <goals>
+                <goal>apply</goal>
+              </goals>
+              <phase>compile</phase>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>com.github.ekryd.sortpom</groupId>
