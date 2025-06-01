@@ -96,10 +96,10 @@
     <spotless-maven-plugin.version>2.22.8</spotless-maven-plugin.version>
     <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
 
-    <!-- Sonar settings -->
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.organization>rosestack</sonar.organization>
-    <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
+
+    <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
   </properties>
 
   <build>
@@ -364,7 +364,6 @@
           <version>${maven-scm-publish-plugin.version}</version>
           <configuration>
             <tryUpdate>true</tryUpdate>
-            <scmBranch>gh-pages</scmBranch>
           </configuration>
         </plugin>
         <plugin>
