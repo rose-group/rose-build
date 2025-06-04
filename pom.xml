@@ -274,6 +274,7 @@
           <version>${maven-enforcer-plugin.version}</version>
           <configuration>
             <rules>
+              <!--检测依赖收敛问题-->
               <dependencyConvergence></dependencyConvergence>
               <requireJavaVersion>
                 <version>${maven.compiler.target}</version>
