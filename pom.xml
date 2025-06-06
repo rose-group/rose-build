@@ -114,7 +114,6 @@
   </repositories>
 
   <build>
-
     <pluginManagement>
       <plugins>
         <plugin>
@@ -134,9 +133,9 @@
               <palantirJavaFormat/>
             </java>
             <pom>
+              <!-- https://github.com/diffplug/spotless/blob/main/plugin-maven/README.md#maven-pom -->
               <sortPom>
                 <encoding>UTF-8</encoding>
-                <keepBlankLines>true</keepBlankLines>
                 <expandEmptyElements>false</expandEmptyElements>
                 <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
                 <sortProperties>false</sortProperties>
