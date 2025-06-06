@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rosestack</groupId>
   <artifactId>rose-build</artifactId>
@@ -91,7 +90,6 @@
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
     <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
-    <sortpom-maven-plugin.version>3.0.1</sortpom-maven-plugin.version>
     <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
     <spotless-maven-plugin.version>2.22.8</spotless-maven-plugin.version>
     <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
@@ -102,7 +100,21 @@
     <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
   </properties>
 
+  <repositories>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>central-snapshots</id>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    </repository>
+  </repositories>
+
   <build>
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -117,10 +129,23 @@
               <flexmark/>
             </markdown>
             <java>
-              <importOrder></importOrder>
-              <removeUnusedImports></removeUnusedImports>
-              <palantirJavaFormat></palantirJavaFormat>
+              <importOrder/>
+              <removeUnusedImports/>
+              <palantirJavaFormat/>
             </java>
+            <pom>
+              <sortPom>
+                <encoding>UTF-8</encoding>
+                <keepBlankLines>true</keepBlankLines>
+                <expandEmptyElements>false</expandEmptyElements>
+                <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+                <sortProperties>false</sortProperties>
+                <sortDependencies>scope,groupId,artifactId</sortDependencies>
+                <sortPlugins>groupId,artifactId</sortPlugins>
+                <sortModules>true</sortModules>
+                <sortExecutions>true</sortExecutions>
+              </sortPom>
+            </pom>
           </configuration>
           <executions>
             <execution>
@@ -131,18 +156,6 @@
               <phase>compile</phase>
             </execution>
           </executions>
-        </plugin>
-        <plugin>
-          <groupId>com.github.ekryd.sortpom</groupId>
-          <artifactId>sortpom-maven-plugin</artifactId>
-          <version>${sortpom-maven-plugin.version}</version>
-          <configuration>
-            <createBackupFile>false</createBackupFile>
-            <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
-            <lineSeparator>\n</lineSeparator>
-            <sortModules>true</sortModules>
-            <sortPlugins>groupId,artifactId</sortPlugins>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>com.github.spotbugs</groupId>
@@ -275,7 +288,7 @@
           <configuration>
             <rules>
               <!--检测依赖收敛问题-->
-              <dependencyConvergence></dependencyConvergence>
+              <dependencyConvergence/>
               <requireJavaVersion>
                 <version>${maven.compiler.target}</version>
               </requireJavaVersion>
@@ -492,10 +505,6 @@
         <artifactId>spotless-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>com.github.ekryd.sortpom</groupId>
-        <artifactId>sortpom-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
       </plugin>
@@ -581,17 +590,4 @@
       </properties>
     </profile>
   </profiles>
-
-  <repositories>
-    <repository>
-      <id>central-snapshots</id>
-      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 </project>
