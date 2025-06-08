@@ -9,7 +9,8 @@
 
 # Rose Build
 
-Define Maven build setup for all Rose projects.
+The Rose parent POM which has to be inherited by all rose modules.
+
 
 ## Requirements
 
@@ -26,6 +27,20 @@ Rose Build supports the following features:
 - Project Settings
 
 ## Instructions
+
+### Config your maven setting.xml
+
+```xml
+<servers>
+    ...
+    <server>
+        <id>central</id>
+        <username>[username]</username>
+        <password>[password]</password>
+    </server>
+    ...
+</servers>
+```
 
 ### Build
 
@@ -84,7 +99,8 @@ The root project's pom.xml should set the parent as follows:
 
 ## References
 
-- https://github.com/apache/maven-fluido-skin/
 - https://github.com/s4u/parent
 - https://github.com/instancio/instancio
+- https://github.com/apache/maven-fluido-skin/
+
 
