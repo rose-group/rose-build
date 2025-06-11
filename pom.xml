@@ -20,7 +20,6 @@
     <license>
       <name>Apache License, Version 2.0</name>
       <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
     </license>
   </licenses>
 
@@ -28,13 +27,17 @@
     <developer>
       <name>chensoul</name>
       <email>ichensoul@gmail.com</email>
+      <organization>RoseStack</organization>
+      <organizationUrl>https://github.com/rosestack</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:git:git@github.com:rosestack/rose-build</connection>
-    <!-- 生成 site 时会使用相对地址，故去掉 .git 后缀-->
-    <developerConnection>scm:git:https://github.com/rosestack/rose-build</developerConnection>
+    <connection>scm:git:https://github.com/rosestack/rose-build.git</connection>
+    <developerConnection>scm:git:https://github.com/rosestack/rose-build.git</developerConnection>
     <tag>HEAD</tag>
     <url>https://github.com/rosestack/rose-build</url>
   </scm>
@@ -57,18 +60,21 @@
     </snapshotRepository>
     <site>
       <id>github</id>
-      <!--如果使用 ssh，mvn scm-publish:publish-scm 会提示 vpn 无法连接-->
-      <url>${project.scm.developerConnection}</url>
+      <url>https://rosestack.github.io/rose-build</url>
     </site>
   </distributionManagement>
 
   <properties>
+    <!--reproducible build-->
+    <project.build.outputTimestamp>2024-09-01 11:38:58Z</project.build.outputTimestamp>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <github.global.server>github</github.global.server>
+
     <java.version>8</java.version>
     <maven.min.version>3.6.3</maven.min.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- Maven Plugins -->
     <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
@@ -76,7 +82,6 @@
     <forbiddenapis.version>3.9</forbiddenapis.version>
     <git-commit-id-maven-plugin.version>4.9.9</git-commit-id-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-    <maven-checkstyle-plugin.version>3.3.2</maven-checkstyle-plugin.version>
     <license-maven-plugin.version>4.6</license-maven-plugin.version>
     <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
@@ -86,8 +91,9 @@
     <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+    <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
+    <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
     <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
-    <maven-scm-publish-plugin.version>3.3.0</maven-scm-publish-plugin.version>
     <!-- 使用 4.X 版本会出现 CRLF would be replaced by LF in fonts/glyphicons-halflings-regular.svg -->
     <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
@@ -97,9 +103,14 @@
     <spotless-maven-plugin.version>2.22.8</spotless-maven-plugin.version>
     <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
     <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
+    <taglist-maven-plugin.version>3.2.1</taglist-maven-plugin.version>
 
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.organization>rosestack</sonar.organization>
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/jacoco-results/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.language>java</sonar.language>
 
     <scmpublish.scm.branch>gh-pages</scmpublish.scm.branch>
   </properties>
@@ -118,6 +129,7 @@
   </repositories>
 
   <build>
+    <defaultGoal>clean install</defaultGoal>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -267,35 +279,20 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${maven-checkstyle-plugin.version}</version>
-          <configuration>
-            <configLocation>google_checks.xml</configLocation>
-            <encoding>UTF-8</encoding>
-            <consoleOutput>true</consoleOutput>
-            <failsOnError>true</failsOnError>
-            <linkXRef>false</linkXRef>
-          </configuration>
-          <executions>
-            <execution>
-              <id>validate</id>
-              <goals>
-                <goal>check</goal>
-              </goals>
-              <phase>validate</phase>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${maven-compiler-plugin.version}</version>
           <configuration>
+            <!-- 强制使用 javac 编译器，确保编译行为与标准 Java 环境一致，避免因编译器差异导致的构建问题。 -->
+            <forceJavacCompilerUse>true</forceJavacCompilerUse>
             <showDeprecation>true</showDeprecation>
             <showWarnings>true</showWarnings>
             <compilerArgs>
+              <!-- 在编译后的字节码中保留方法参数的名称信息 -->
               <arg>-parameters</arg>
-              <arg>-Xlint:all,-options,-processing</arg>
+              <!-- 用于启用所有警告信息 -->
+              <arg>-Xlint:all</arg>
+              <!-- 运行注解处理器，并且编译代码: none,only，both（默认）-->
+              <arg>-processing</arg>
             </compilerArgs>
             <source>${maven.compiler.source}</source>
             <target>${maven.compiler.target}</target>
@@ -390,6 +387,7 @@
               </manifest>
               <manifestEntries>
                 <Build-Time>${maven.build.timestamp}</Build-Time>
+                <!--suppress UnresolvedMavenProperty -->
                 <Build-Revision>${git.commit.id.abbrev}</Build-Revision>
               </manifestEntries>
             </archive>
@@ -400,11 +398,14 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>${maven-javadoc-plugin.version}</version>
           <configuration>
+            <failOnError>false</failOnError>
+            <bottom>Copyright© 2025 RoseStack. All Rights Reserved.</bottom>
+            <sourceFileExcludes>
+              <exclude>**/generated-sources/**/*.java</exclude>
+            </sourceFileExcludes>
             <source>${maven.compiler.source}</source>
             <encoding>${file.encoding}</encoding>
-            <doclint>none</doclint>
-            <detectLinks>false</detectLinks>
-            <detectOfflineLinks>false</detectOfflineLinks>
+            <detectJavaApiLink>false</detectJavaApiLink>
           </configuration>
           <executions>
             <execution>
@@ -424,16 +425,11 @@
             <preparationProfiles>!tests</preparationProfiles>
             <releaseProfiles>release</releaseProfiles>
             <autoVersionSubmodules>true</autoVersionSubmodules>
+            <arguments>-Dmaven.javadoc.skip=true -DskipTests -DskipITs</arguments>
             <tagNameFormat>v@{project.version}</tagNameFormat>
             <scmCommentPrefix>[CI Skip]</scmCommentPrefix>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-scm-publish-plugin</artifactId>
-          <version>${maven-scm-publish-plugin.version}</version>
-          <configuration>
-            <tryUpdate>true</tryUpdate>
+            <updateWorkingCopyVersions>true</updateWorkingCopyVersions>
+            <pushChanges>false</pushChanges>
           </configuration>
         </plugin>
         <plugin>
@@ -442,7 +438,6 @@
           <version>${maven-site-plugin.version}</version>
           <configuration>
             <skipDeploy>true</skipDeploy>
-            <topSiteURL>${project.scm.developerConnection}</topSiteURL>
           </configuration>
           <executions>
             <execution>
@@ -531,16 +526,49 @@
           </configuration>
           <executions>
             <execution>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>report</id>
+              <id>default-report</id>
               <goals>
                 <goal>report</goal>
               </goals>
-              <phase>test</phase>
+              <configuration>
+                <dataFile>${project.basedir}/target/jacoco.exec</dataFile>
+                <outputDirectory>${project.basedir}/target/jacoco-results/</outputDirectory>
+              </configuration>
+            </execution>
+            <execution>
+              <id>pre-unit-test</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+              <configuration>
+                <destFile>${project.basedir}/target/jacoco.exec</destFile>
+                <propertyName>surefireArgLine</propertyName>
+                <append>true</append>
+              </configuration>
+            </execution>
+            <execution>
+              <id>pre-integration-test</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+              <phase>pre-integration-test</phase>
+              <configuration>
+                <destFile>${project.basedir}/target/jacoco.exec</destFile>
+                <propertyName>failsafeArgLine</propertyName>
+                <append>true</append>
+              </configuration>
+            </execution>
+            <execution>
+              <id>pre-invoker-test</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+              <phase>pre-integration-test</phase>
+              <configuration>
+                <destFile>${project.basedir}/target/jacoco.exec</destFile>
+                <propertyName>invoker.mavenOpts</propertyName>
+                <append>true</append>
+              </configuration>
             </execution>
           </executions>
         </plugin>
@@ -564,6 +592,7 @@
     </pluginManagement>
 
     <plugins>
+
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
@@ -590,6 +619,24 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-artifact-plugin</artifactId>
+        <version>3.5.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>buildinfo</goal>
+            </goals>
+            <phase>verify</phase>
+            <configuration>
+              <!--suppress UnresolvedMavenProperty -->
+              <outputTimestamp>${git.commit.time}</outputTimestamp>
+              <reproducible>true</reproducible>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
       <plugin>
@@ -599,10 +646,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-scm-publish-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -618,6 +661,114 @@
       </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${spotbugs-maven-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>${maven-jxr-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>${maven-project-info-reports-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>summary</report>
+              <report>issue-management</report>
+              <report>modules</report>
+              <report>team</report>
+              <report>scm</report>
+              <report>ci-management</report>
+              <report>licenses</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report-only</report>
+              <report>failsafe-report-only</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>${taglist-maven-plugin.version}</version>
+        <configuration>
+          <tagListOptions>
+            <tagClasses>
+              <tagClass>
+                <displayName>Todo Work</displayName>
+                <tags>
+                  <tag>
+                    <matchString>todo</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>FIXME</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+            </tagClasses>
+          </tagListOptions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>${versions-maven-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependency-updates-report</report>
+              <report>plugin-updates-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco-maven-plugin.version}</version>
+        <configuration>
+          <dataFileIncludes>
+            <dataFileInclude>${project.basedir}/target/jacoco.exec</dataFileInclude>
+          </dataFileIncludes>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <profiles>
     <profile>

@@ -83,11 +83,21 @@ Add the following to your project's `pom.xml`:
 
 ## Usage
 
-#### Build
+#### Building From Source
 
 ```bash
-mvn clean package
+mvn install
 ```
+
+#### Building Site
+
+The documentation on the github pages is generated from this repository:
+
+```bash
+mvn clean site site:stage
+```
+
+Once done, point your browser to `./target/staging/index.html`.
 
 #### Test
 
@@ -101,12 +111,6 @@ mvn clean verify
 mvn dependency:analyze
 
 mvn versions:display-dependency-updates
-```
-
-#### Generate Site
-
-```bash
-mvn clean site site:stage scm-publish:publish-scm 
 ```
 
 #### Release

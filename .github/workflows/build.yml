@@ -1,0 +1,16 @@
+name: Build and Deploy Snapshot
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+
+permissions: {}
+
+jobs:
+  build:
+    uses: rosestack/.github/.github/workflows/build.yml@main
+    secrets: inherit
