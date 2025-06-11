@@ -9,8 +9,16 @@
 
 # Rose Build
 
-The Rose parent POM which has to be inherited by all rose modules.
+The Rose parent POM which has to be inherited by all rose modules. This project provides a standardized build configuration for all Rose Stack projects, ensuring consistent build practices and quality standards across the ecosystem.
 
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [References](#references)
 
 ## Requirements
 
@@ -21,86 +29,132 @@ The Rose parent POM which has to be inherited by all rose modules.
 
 Rose Build supports the following features:
 
-- Language Support
-- Plugins Management
-- Profiles Management
-- Project Settings
+- **Language Support**
+  - Java 8+ compatibility
+  - UTF-8 encoding
+  - Consistent code formatting with Spotless
+  - Code quality checks with Checkstyle
+  - EditorConfig support for cross-editor consistency
+- **Plugins Management**
+  - Dependency management
+  - Code quality tools (SpotBugs, JaCoCo)
+  - Documentation generation
+  - Site generation and deployment
+  - Resource filtering and encoding
+  - Manifest customization
+- **Profiles Management**
+  - Development profile
+  - Release profile
+  - Coverage profile
+- **Project Settings**
+  - Standardized project structure
+  - Consistent versioning
+  - Quality gates
+  - License management
+  - Git attributes configuration
 
-## Instructions
+## Quick Start
 
-### Config your maven setting.xml
+### 1. Configure Maven Settings
+
+Add the following to your `~/.m2/settings.xml`:
 
 ```xml
 <servers>
-    ...
     <server>
         <id>central</id>
         <username>[username]</username>
         <password>[password]</password>
     </server>
-    ...
 </servers>
 ```
 
-### Build
+### 2. Add to Your Project
 
-```bash
-mvn clean package
-```
-
-### Test
-
-```bash
-mvn clean verify
-```
-
-### Site
-
-Upload sites to gitHub pages:
-
-```bash
-mvn clean site site:stage scm-publish:publish-scm 
-```
-
-### Release
-
-Update Release version:
-
-```bash
-mvn versions:set -DprocessAllModules=true -DgenerateBackupPoms=false -DnewVersion=0.0.1
-```
-
-Publish to Central:
-
-```bash
-mvn -DskipTests -Prelease deploy
-```
-
-### Sonar
-
-```bash
-mvn verify -Pcoverage javadoc:javadoc
-mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN
-```
-
-## Usage
-
-### Java 8+ Maven Project
-
-The root project's pom.xml should set the parent as follows:
+Add the following to your project's `pom.xml`:
 
 ```xml
 <parent>
     <groupId>io.github.rosestack</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.6-SNAPSHOT</version>
 </parent>
 ```
 
+## Usage
+
+#### Build
+
+```bash
+mvn clean package
+```
+
+#### Test
+
+```bash
+mvn clean verify
+```
+
+### Analyze dependency
+
+```bash
+mvn dependency:analyze
+
+mvn versions:display-dependency-updates
+```
+
+#### Generate Site
+
+```bash
+mvn clean site site:stage scm-publish:publish-scm 
+```
+
+#### Release
+
+```bash
+# Update version
+mvn versions:set -DprocessAllModules=true -DgenerateBackupPoms=false -DnewVersion=0.0.1
+
+# Publish to Central
+mvn -DskipTests -Prelease deploy
+```
+
+### Format
+
+```bash
+mvn spotless:apply
+```
+
+#### Code Quality
+
+```bash
+# Run tests with coverage
+mvn verify -Pcoverage javadoc:javadoc
+
+# Run Sonar analysis
+mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html)
+- Use [EditorConfig](https://editorconfig.org/) for consistent coding style
+- Write meaningful commit messages following [Conventional Commits](https://www.conventionalcommits.org/)
+
 ## References
 
-- https://github.com/s4u/parent
-- https://github.com/instancio/instancio
-- https://github.com/apache/maven-fluido-skin/
-
+- [S4U Parent POM](https://github.com/s4u/parent)
+- [Instancio](https://github.com/instancio/instancio)
+- [Maven Fluido Skin](https://github.com/apache/maven-fluido-skin/)
+- [Maven Documentation](https://maven.apache.org/guides/)
+- [EditorConfig](https://editorconfig.org/)
+- [Conventional Commits](https://www.conventionalcommits.org/)
 
