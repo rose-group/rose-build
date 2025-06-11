@@ -1,51 +1,9 @@
-name: Release
+name: Maven Release
+
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      id-token: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Set up JDK 8
-        uses: actions/setup-java@v4
-        with:
-          java-version: '8'
-          distribution: 'temurin'
-          cache: maven
-      - name: Install gpg
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gnupg2
-      - name: Import GPG key
-        run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import
-      - name: Configure GPG
-        run: |
-          echo "gpg --list-secret-keys"
-          gpg --list-secret-keys
-      - name: Deploy to Maven Central
-        run: mvn -B deploy -Prelease
-        env:
-          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            target/*.jar
-            target/*.pom
-            target/*.asc
-            target/*.md5
-            target/*.sha1
-            target/*.sha256
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+  site:
+    uses: rosestack/.github/.github/workflows/maven-release.yml@main
+    secrets: inherit
