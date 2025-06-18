@@ -71,14 +71,14 @@ jobs:
 #            **/target/*.jar
 #            **/target/*.pom
 #            target/*.buildinfo
-#
-#      - name: Archive Site
-#        id: archive-site
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: archive-site
-#          retention-days: 7
-#          path: target/staging/
+
+      - name: Archive Site
+        id: archive-site
+        uses: actions/upload-artifact@v4
+        with:
+          name: archive-site
+          retention-days: 7
+          path: target/staging/
 
 
 #  publish_coverage:
