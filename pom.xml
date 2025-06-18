@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rosestack</groupId>
   <artifactId>rose-build</artifactId>
-  <version>0.0.7-SNAPSHOT</version>
+  <version>0.0.8-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Rose Build POM</name>
@@ -65,16 +65,15 @@
   </distributionManagement>
 
   <properties>
-    <!--reproducible build-->
-    <project.build.outputTimestamp>2025-06-18T13:41:33Z</project.build.outputTimestamp>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <github.global.server>github</github.global.server>
-
     <java.version>8</java.version>
     <maven.min.version>3.6.3</maven.min.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!--reproducible build-->
+    <project.build.outputTimestamp>2025-06-18T14:12:39Z</project.build.outputTimestamp>
 
     <!-- Maven Plugins -->
     <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
@@ -141,12 +140,12 @@
               <includes>
                 <include>**/*.md</include>
               </includes>
-              <flexmark/>
+              <flexmark />
             </markdown>
             <java>
-              <importOrder/>
-              <removeUnusedImports/>
-              <palantirJavaFormat/>
+              <importOrder />
+              <removeUnusedImports />
+              <palantirJavaFormat />
             </java>
             <pom>
               <!-- https://github.com/diffplug/spotless/blob/main/plugin-maven/README.md#maven-pom -->
@@ -330,8 +329,8 @@
               <requireJavaVersion>
                 <version>${java.version}</version>
               </requireJavaVersion>
-              <dependencyConvergence/>
-              <banDuplicatePomDependencyVersions/>
+              <dependencyConvergence />
+              <banDuplicatePomDependencyVersions />
             </rules>
           </configuration>
           <executions>
