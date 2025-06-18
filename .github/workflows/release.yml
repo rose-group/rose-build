@@ -50,35 +50,35 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Archive code coverage results
-        id: archive-coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-report
-          retention-days: 7
-          path: |
-            **/target/jacoco-results/jacoco.xml
-            **/target/jacoco-results/**/*.html
-
-      - name: Archive Release
-        id: archive-release
-        uses: actions/upload-artifact@v4
-        with:
-          name: archive-release
-          retention-days: 7
-          path: |
-            **/target/*.asc
-            **/target/*.jar
-            **/target/*.pom
-            target/*.buildinfo
-
-      - name: Archive Site
-        id: archive-site
-        uses: actions/upload-artifact@v4
-        with:
-          name: archive-site
-          retention-days: 7
-          path: target/staging/
+#      - name: Archive code coverage results
+#        id: archive-coverage
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: code-coverage-report
+#          retention-days: 7
+#          path: |
+#            **/target/jacoco-results/jacoco.xml
+#            **/target/jacoco-results/**/*.html
+#
+#      - name: Archive Release
+#        id: archive-release
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: archive-release
+#          retention-days: 7
+#          path: |
+#            **/target/*.asc
+#            **/target/*.jar
+#            **/target/*.pom
+#            target/*.buildinfo
+#
+#      - name: Archive Site
+#        id: archive-site
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: archive-site
+#          retention-days: 7
+#          path: target/staging/
 
 
 #  publish_coverage:
@@ -106,39 +106,53 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Get version
-        id: get-version
-        run: |
-          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-      - name: Download release build
-        uses: actions/download-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: archive-release
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1.1.4
+          files: |
+            target/*.jar
+            target/*.pom
+            target/*.asc
+            target/*.md5
+            target/*.sha1
+            target/*.sha256
+            target/*.buildinfo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ env.VERSION }}
-          release_name: Version ${{ env.VERSION }}
-          prerelease: false
-          draft: false
-          body: |
-            Refer to the [CHANGELOG.md](https://github.com/rosestack/rose-build/blob/main/CHANGELOG.md#change-log) for information about improvements and upgrade notes.
-      - name: Upload buildinfo
-        id: upload-release-buildinfo
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: target/rose-build-${{env.VERSION}}.buildinfo
-          asset_name: rose-build-${{env.VERSION}}.buildinfo
-          asset_content_type: text/plain
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#      - name: Get version
+#        id: get-version
+#        run: |
+#          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
+#          echo "VERSION=$VERSION" >> $GITHUB_ENV
+#      - name: Download release build
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: archive-release
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1.1.4
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: v${{ env.VERSION }}
+#          release_name: v${{ env.VERSION }}
+#          prerelease: false
+#          draft: false
+#          body: |
+#            Refer to the [CHANGELOG.md](https://github.com/rosestack/rose-build/blob/main/CHANGELOG.md#change-log) for information about improvements and upgrade notes.
+#      - name: Upload buildinfo
+#        id: upload-release-buildinfo
+#        uses: actions/upload-release-asset@v1.0.2
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ steps.create_release.outputs.upload_url }}
+#          asset_path: target/rose-build-${{env.VERSION}}.buildinfo
+#          asset_name: rose-build-${{env.VERSION}}.buildinfo
+#          asset_content_type: text/plain
 
   publish:
     name: Publish gh-pages

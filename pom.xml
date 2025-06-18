@@ -141,12 +141,12 @@
               <includes>
                 <include>**/*.md</include>
               </includes>
-              <flexmark />
+              <flexmark/>
             </markdown>
             <java>
-              <importOrder />
-              <removeUnusedImports />
-              <palantirJavaFormat />
+              <importOrder/>
+              <removeUnusedImports/>
+              <palantirJavaFormat/>
             </java>
             <pom>
               <!-- https://github.com/diffplug/spotless/blob/main/plugin-maven/README.md#maven-pom -->
@@ -330,8 +330,8 @@
               <requireJavaVersion>
                 <version>${java.version}</version>
               </requireJavaVersion>
-              <dependencyConvergence />
-              <banDuplicatePomDependencyVersions />
+              <dependencyConvergence/>
+              <banDuplicatePomDependencyVersions/>
             </rules>
           </configuration>
           <executions>
