@@ -12,5 +12,5 @@ permissions: {}
 
 jobs:
   build:
-    uses: rosestack/.github/.github/workflows/build.yml@main
+    uses: rosestack/.github/.github/workflows/maven-build.yml@main
     secrets: inherit
