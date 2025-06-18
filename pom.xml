@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rosestack</groupId>
   <artifactId>rose-build</artifactId>
-  <version>0.0.7</version>
+  <version>0.0.8-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Rose Build POM</name>
@@ -38,7 +38,7 @@
   <scm>
     <connection>scm:git:https://github.com/rosestack/rose-build.git</connection>
     <developerConnection>scm:git:https://github.com/rosestack/rose-build.git</developerConnection>
-    <tag>v0.0.7</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/rosestack/rose-build</url>
   </scm>
 
@@ -66,7 +66,7 @@
 
   <properties>
     <!--reproducible build-->
-    <project.build.outputTimestamp>2025-06-18T14:12:36Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-06-18T14:12:39Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <github.global.server>github</github.global.server>
@@ -141,12 +141,12 @@
               <includes>
                 <include>**/*.md</include>
               </includes>
-              <flexmark/>
+              <flexmark />
             </markdown>
             <java>
-              <importOrder/>
-              <removeUnusedImports/>
-              <palantirJavaFormat/>
+              <importOrder />
+              <removeUnusedImports />
+              <palantirJavaFormat />
             </java>
             <pom>
               <!-- https://github.com/diffplug/spotless/blob/main/plugin-maven/README.md#maven-pom -->
@@ -330,8 +330,8 @@
               <requireJavaVersion>
                 <version>${java.version}</version>
               </requireJavaVersion>
-              <dependencyConvergence/>
-              <banDuplicatePomDependencyVersions/>
+              <dependencyConvergence />
+              <banDuplicatePomDependencyVersions />
             </rules>
           </configuration>
           <executions>
