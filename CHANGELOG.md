@@ -36,4 +36,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - style: 优化 pom.xml 文件格式与插件配置顺序
 - style: 调整 pom.xml 文件格式并优化配置项
 
-
