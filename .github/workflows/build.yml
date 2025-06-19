@@ -1,0 +1,11 @@
+name: Maven Build0old
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: rosestack/.github/.github/workflows/maven-build.yml@main
+    secrets: inherit

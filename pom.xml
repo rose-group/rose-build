@@ -1,0 +1,891 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.github.rosestack</groupId>
+  <artifactId>rose-build</artifactId>
+  <version>0.0.25-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Rose Build POM</name>
+  <description>Rose Build POM</description>
+  <url>https://rosestack.github.io/rose-build</url>
+  <inceptionYear>2025</inceptionYear>
+
+  <organization>
+    <name>RoseStack</name>
+    <url>https://github.com/rosestack</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>chensoul</name>
+      <email>ichensoul@gmail.com</email>
+      <organization>RoseStack</organization>
+      <organizationUrl>https://github.com/rosestack</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/rosestack/rose-build.git</connection>
+    <developerConnection>scm:git:https://github.com/rosestack/rose-build.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/rosestack/rose-build</url>
+  </scm>
+
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/rosestack/rose-build/issues</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>github</system>
+    <url>https://github.com/rosestack/rose-build/actions</url>
+  </ciManagement>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>central</id>
+      <name>central-snapshot</name>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+    <site>
+      <id>github</id>
+      <url>https://rosestack.github.io/rose-build</url>
+    </site>
+  </distributionManagement>
+
+  <properties>
+    <!-- 基础配置 -->
+    <java.version>8</java.version>
+    <maven.min.version>3.6.3</maven.min.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- 代码质量相关插件 -->
+    <spotless-maven-plugin.version>2.22.8</spotless-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
+    <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
+    <forbiddenapis.version>3.9</forbiddenapis.version>
+
+    <!-- 测试相关插件 -->
+    <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+    <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
+    <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
+
+    <!-- 文档生成插件 -->
+    <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+    <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
+    <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
+    <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
+    <taglist-maven-plugin.version>3.2.1</taglist-maven-plugin.version>
+
+    <!-- 构建相关插件 -->
+    <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+    <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-dependency-plugin.version>3.6.1</maven-dependency-plugin.version>
+    <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+    <maven-wrapper-plugin.version>3.2.0</maven-wrapper-plugin.version>
+    <flatten-maven-plugin.version>1.7.0</flatten-maven-plugin.version>
+    <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
+    <extra-enforcer-rules.version>1.7.0</extra-enforcer-rules.version>
+    <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
+    <maven-install-plugin.version>3.1.2</maven-install-plugin.version>
+
+    <!-- 发布相关插件 -->
+    <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+    <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+    <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+    <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
+
+    <!-- 版本管理插件 -->
+    <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
+    <git-commit-id-maven-plugin.version>4.9.9</git-commit-id-maven-plugin.version>
+
+    <!-- 代码许可证插件 -->
+    <license-maven-plugin.version>4.6</license-maven-plugin.version>
+
+    <!-- Sonar 配置 -->
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.organization>rosestack</sonar.organization>
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/jacoco-results/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.language>java</sonar.language>
+    <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+    <sonar.coverage.exclusions>**/generated/**/*,
+      **/test/**/*,
+      **/mock/**/*</sonar.coverage.exclusions>
+    <sonar.cpd.exclusions>**/generated/**/*</sonar.cpd.exclusions>
+
+    <project.build.outputTimestamp>2025-06-19T15:30:08Z</project.build.outputTimestamp>
+  </properties>
+
+  <repositories>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>central-snapshots</id>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <defaultGoal>clean install</defaultGoal>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless-maven-plugin.version}</version>
+          <configuration>
+            <markdown>
+              <includes>
+                <include>**/*.md</include>
+              </includes>
+              <flexmark/>
+            </markdown>
+            <java>
+              <importOrder/>
+              <removeUnusedImports/>
+              <palantirJavaFormat/>
+            </java>
+            <pom>
+              <!-- https://github.com/diffplug/spotless/blob/main/plugin-maven/README.md#maven-pom -->
+              <sortPom>
+                <encoding>UTF-8</encoding>
+                <expandEmptyElements>false</expandEmptyElements>
+                <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+                <sortProperties>false</sortProperties>
+                <sortDependencies>scope,groupId,artifactId</sortDependencies>
+                <sortPlugins>groupId,artifactId</sortPlugins>
+                <sortModules>true</sortModules>
+                <sortExecutions>true</sortExecutions>
+              </sortPom>
+            </pom>
+          </configuration>
+          <executions>
+            <execution>
+              <id>apply</id>
+              <goals>
+                <goal>apply</goal>
+              </goals>
+              <phase>compile</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>${spotbugs-maven-plugin.version}</version>
+          <configuration>
+            <effort>Max</effort>
+            <threshold>Low</threshold>
+            <xmlOutput>true</xmlOutput>
+            <htmlOutput>true</htmlOutput>
+            <outputDirectory>${project.build.directory}/spotbugs-reports</outputDirectory>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>${license-maven-plugin.version}</version>
+          <configuration>
+            <properties>
+              <owner>${project.organization.name}</owner>
+            </properties>
+            <licenseSets>
+              <licenseSet>
+                <header>com/mycila/maven/plugin/license/templates/APACHE-2-noemail.txt</header>
+                <includes>
+                  <include>**/*.java</include>
+                </includes>
+              </licenseSet>
+            </licenseSets>
+            <strictCheck>true</strictCheck>
+            <mapping>
+              <java>SLASHSTAR_STYLE</java>
+            </mapping>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>de.thetaphi</groupId>
+          <artifactId>forbiddenapis</artifactId>
+          <version>${forbiddenapis.version}</version>
+          <configuration>
+            <targetVersion>${java.version}</targetVersion>
+            <signatures><![CDATA[com.google.common.base.Preconditions#checkNotNull(java.lang.Object) @ use java.util.Objects#requireNonNull(java.lang.Object) instead
+                com.google.common.collect.ImmutableList#of(java.lang.Object) @ use java.util.Collections#singletonList(java.util.Objects#requireNonNull(java.lang.Object)) instead, and also consider omitting unnecessary null-checks
+                com.google.common.collect.ImmutableSet#of(java.lang.Object) @ use java.util.Collections#singleton(java.util.Objects#requireNonNull(java.lang.Object)) instead, and also consider omitting unnecessary null-checks
+                com.google.common.collect.ImmutableList#of() @ use java.util.Collections#emptyList() instead
+                com.google.common.collect.ImmutableSet#of() @ use java.util.Collections#emptySet() instead
+
+                # According to javadoc of following methods
+                # "for Java 7 and later: this method is now unnecessary and should be treated as deprecated"
+                @defaultMessage use diamond operator instead
+                com.google.common.collect.Lists#newArrayList()
+                com.google.common.collect.Lists#newLinkedList()
+                com.google.common.collect.Maps#newHashMap()
+                com.google.common.collect.Sets#newHashSet()
+                com.google.common.base.Objects @ use java.util.Objects instead]]></signatures>
+            <!-- if the used Java version is too new, don't fail, just do nothing: -->
+            <failOnUnsupportedJava>false</failOnUnsupportedJava>
+            <ignoreSignaturesOfMissingClasses>true</ignoreSignaturesOfMissingClasses>
+            <bundledSignatures>
+              <bundledSignature>jdk-unsafe</bundledSignature>
+              <bundledSignature>jdk-deprecated</bundledSignature>
+              <bundledSignature>jdk-non-portable</bundledSignature>
+              <bundledSignature>jdk-reflection</bundledSignature>
+              <bundledSignature>jdk-internal</bundledSignature>
+              <bundledSignature>jdk-system-out</bundledSignature>
+            </bundledSignatures>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>io.github.git-commit-id</groupId>
+          <artifactId>git-commit-id-maven-plugin</artifactId>
+          <version>${git-commit-id-maven-plugin.version}</version>
+          <configuration>
+            <dateFormatTimeZone>${user.timezone}</dateFormatTimeZone>
+            <failOnNoGitDirectory>false</failOnNoGitDirectory>
+            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+            <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
+            <includeOnlyProperties>
+              <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+              <includeOnlyProperty>^git.commit.(id|message|time).*$</includeOnlyProperty>
+            </includeOnlyProperties>
+          </configuration>
+          <executions>
+            <execution>
+              <id>get-the-git-infos</id>
+              <goals>
+                <goal>revision</goal>
+              </goals>
+              <phase>initialize</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>io.sundr</groupId>
+          <artifactId>sundr-maven-plugin</artifactId>
+          <version>${sundrio-maven-plugin.version}</version>
+          <inherited>false</inherited>
+          <executions>
+            <execution>
+              <goals>
+                <goal>generate-bom</goal>
+              </goals>
+              <phase>validate</phase>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven-clean-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+          <configuration>
+            <!-- 强制使用 javac 编译器，确保编译行为与标准 Java 环境一致，避免因编译器差异导致的构建问题。 -->
+            <forceJavacCompilerUse>true</forceJavacCompilerUse>
+            <showDeprecation>true</showDeprecation>
+            <showWarnings>true</showWarnings>
+            <compilerArgs>
+              <!-- 在编译后的字节码中保留方法参数的名称信息 -->
+              <arg>-parameters</arg>
+              <!-- 用于启用所有警告信息 -->
+              <arg>-Xlint:all</arg>
+              <!-- 运行注解处理器，并且编译代码: none,only，both（默认）-->
+              <arg>-processing</arg>
+            </compilerArgs>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+            <encoding>${file.encoding}</encoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${maven-dependency-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>analyze-only</id>
+              <goals>
+                <goal>analyze-only</goal>
+              </goals>
+              <configuration>
+                <failOnWarning>true</failOnWarning>
+                <ignoreNonCompile>true</ignoreNonCompile>
+                <outputXML>true</outputXML>
+                <ignoredUsedUndeclaredDependencies>
+                  <ignoredUsedUndeclaredDependency>org.slf4j:*</ignoredUsedUndeclaredDependency>
+                </ignoredUsedUndeclaredDependencies>
+              </configuration>
+            </execution>
+            <execution>
+              <id>analyze</id>
+              <goals>
+                <goal>analyze</goal>
+              </goals>
+              <phase>package</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${maven-enforcer-plugin.version}</version>
+          <configuration>
+            <rules>
+              <!-- 强制要求 Maven 最低版本 -->
+              <requireMavenVersion>
+                <version>${maven.min.version}</version>
+              </requireMavenVersion>
+
+              <!-- 强制要求 Java 版本 -->
+              <requireJavaVersion>
+                <version>${java.version}</version>
+              </requireJavaVersion>
+
+              <!-- 强制要求所有依赖版本统一 -->
+              <dependencyConvergence/>
+
+              <!-- 禁止在 POM 中出现重复的依赖声明 -->
+              <banDuplicatePomDependencyVersions/>
+
+              <!-- 强制要求依赖使用最新版本 -->
+              <requireUpperBoundDeps/>
+
+              <!-- 发布时强制要求使用发布版本依赖（非快照版本） -->
+              <requireReleaseDeps>
+                <onlyWhenRelease>true</onlyWhenRelease>
+              </requireReleaseDeps>
+
+              <!-- 强制要求所有插件声明版本号 -->
+              <requirePluginVersions/>
+
+              <!-- 禁止项目中出现重复的类 -->
+              <banDuplicateClasses>
+                <!-- 配置重复类检查规则 -->
+                <ignoreClasses>
+                  <!-- 忽略一些常见的重复类 -->
+                  <ignoreClass>module-info</ignoreClass>
+                  <ignoreClass>META-INF/*.SF</ignoreClass>
+                  <ignoreClass>META-INF/*.DSA</ignoreClass>
+                  <ignoreClass>META-INF/*.RSA</ignoreClass>
+                </ignoreClasses>
+                <findAllDuplicates>true</findAllDuplicates>
+              </banDuplicateClasses>
+
+              <!-- 禁止使用传递性依赖，强制显式声明 -->
+              <banTransitiveDependencies>
+                <!-- 排除一些特殊的传递性依赖 -->
+                <excludes>
+                  <exclude>org.slf4j:*</exclude>
+                </excludes>
+              </banTransitiveDependencies>
+            </rules>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>extra-enforcer-rules</artifactId>
+              <version>${extra-enforcer-rules.version}</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <!-- 在构建生命周期中执行规则检查 -->
+            <execution>
+              <id>enforce</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven-failsafe-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${maven-gpg-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+              <phase>verify</phase>
+              <configuration>
+                <gpgArguments>
+                  <arg>--pinentry-mode</arg>
+                  <arg>loopback</arg>
+                </gpgArguments>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${maven-install-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+              <manifestEntries>
+                <Build-Time>${maven.build.timestamp}</Build-Time>
+                <!--suppress UnresolvedMavenProperty -->
+                <Build-Revision>${git.commit.id.abbrev}</Build-Revision>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+          <configuration>
+            <failOnError>false</failOnError>
+            <bottom>Copyright© 2025 RoseStack. All Rights Reserved.</bottom>
+            <sourceFileExcludes>
+              <exclude>**/generated-sources/**/*.java</exclude>
+            </sourceFileExcludes>
+            <source>${java.version}</source>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <docencoding>${project.build.sourceEncoding}</docencoding>
+            <additionalJOptions>
+              <additionalJOption>-Xdoclint:none</additionalJOption>
+            </additionalJOptions>
+            <detectJavaApiLink>false</detectJavaApiLink>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${maven-release-plugin.version}</version>
+          <configuration>
+            <!-- 发布前执行的目标，进行清理和验证 -->
+            <preparationGoals>clean verify</preparationGoals>
+            <!-- 准备阶段排除的 Profile -->
+            <preparationProfiles>!tests</preparationProfiles>
+            <!-- 发布时激活的 Profile -->
+            <releaseProfiles>release</releaseProfiles>
+            <!-- 是否自动更新子模块版本号 -->
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <!-- 发布时跳过文档生成和测试 -->
+            <arguments>-Dmaven.javadoc.skip=true -DskipTests -DskipITs</arguments>
+            <!-- Git 标签命名格式：v+版本号 -->
+            <tagNameFormat>v@{project.version}</tagNameFormat>
+            <!-- Git 提交信息前缀，用于跳过 CI -->
+            <scmCommentPrefix>[CI Skip]</scmCommentPrefix>
+            <!-- 使用项目版本作为发布版本 -->
+            <useReleaseProfile>false</useReleaseProfile>
+            <!-- 允许未提交的更改 -->
+            <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
+            <!-- 更新后分支 -->
+            <updateBranchVersions>true</updateBranchVersions>
+            <!-- 更新工作副本版本 -->
+            <updateWorkingCopyVersions>true</updateWorkingCopyVersions>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>${maven-site-plugin.version}</version>
+          <configuration>
+            <!-- 跳过站点部署，通常使用其他方式（如 GitHub Pages）进行部署 -->
+            <skipDeploy>true</skipDeploy>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <!-- 将站点描述符附加到项目中，使其可以被继承 -->
+                <goal>attach-descriptor</goal>
+              </goals>
+              <!-- 仅在父模块中生成站点描述符 -->
+              <inherited>false</inherited>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+              <phase>package</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <forkCount>1</forkCount>
+            <reuseForks>false</reuseForks>
+            <!--suppress UnresolvedMavenProperty -->
+            <argLine>-Xmx1024m
+              -XX:MaxPermSize=256m
+              -Dfile.encoding=UTF-8
+              ${surefireArgLine}</argLine>
+            <environmentVariables>
+              <LANG>en_US.UTF-8</LANG>
+            </environmentVariables>
+            <systemPropertyVariables>
+              <java.awt.headless>true</java.awt.headless>
+              <java.io.tmpdir>${project.build.directory}/tmp</java.io.tmpdir>
+              <user.timezone>UTC</user.timezone>
+            </systemPropertyVariables>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-wrapper-plugin</artifactId>
+          <version>${maven-wrapper-plugin.version}</version>
+          <configuration>
+            <mavenVersion>${maven.min.version}</mavenVersion>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>${flatten-maven-plugin.version}</version>
+          <inherited>true</inherited>
+          <configuration>
+            <embedBuildProfileDependencies>false</embedBuildProfileDependencies>
+            <flattenDependencyMode>all</flattenDependencyMode>
+            <flattenMode>resolveCiFriendliesOnly</flattenMode>
+            <updatePomFile>true</updatePomFile>
+            <pomElements>
+              <parent>expand</parent>
+              <properties>keep</properties>
+              <dependencyManagement>interpolate</dependencyManagement>
+              <dependencies>resolve</dependencies>
+              <distributionManagement>remove</distributionManagement>
+              <repositories>remove</repositories>
+            </pomElements>
+          </configuration>
+          <executions>
+            <execution>
+              <id>flatten</id>
+              <goals>
+                <goal>flatten</goal>
+              </goals>
+              <phase>process-resources</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>${versions-maven-plugin.version}</version>
+          <configuration>
+            <!-- 不生成备份文件 -->
+            <generateBackupPoms>false</generateBackupPoms>
+            <!-- 处理所有模块 -->
+            <processAllModules>true</processAllModules>
+            <!-- 允许快照版本 -->
+            <allowSnapshots>true</allowSnapshots>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco-maven-plugin.version}</version>
+          <executions>
+            <!-- 1. 生成覆盖率报告 -->
+            <execution>
+              <id>default-report</id>
+              <goals>
+                <goal>report</goal>
+              </goals>
+              <phase>verify</phase>
+              <configuration>
+                <dataFile>${project.basedir}/target/jacoco.exec</dataFile>
+                <outputDirectory>${project.basedir}/target/jacoco-results/</outputDirectory>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>${sonar-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>${central-publishing-maven-plugin.version}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <publishingServerId>central</publishingServerId>
+            <autoPublish>true</autoPublish>
+            <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>de.thetaphi</groupId>
+        <artifactId>forbiddenapis</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>io.sundr</groupId>
+        <artifactId>sundr-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-wrapper-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${spotbugs-maven-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>${maven-jxr-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>${maven-project-info-reports-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>summary</report>
+              <report>issue-management</report>
+              <report>modules</report>
+              <report>team</report>
+              <report>scm</report>
+              <report>ci-management</report>
+              <report>licenses</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report-only</report>
+              <report>failsafe-report-only</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>${taglist-maven-plugin.version}</version>
+        <configuration>
+          <tagListOptions>
+            <tagClasses>
+              <tagClass>
+                <displayName>Todo Work</displayName>
+                <tags>
+                  <tag>
+                    <matchString>todo</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>FIXME</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+            </tagClasses>
+          </tagListOptions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>${versions-maven-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependency-updates-report</report>
+              <report>plugin-updates-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>jdk9+</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <properties>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+      </properties>
+    </profile>
+  </profiles>
+</project>
