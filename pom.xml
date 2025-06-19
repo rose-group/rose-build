@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rosestack</groupId>
   <artifactId>rose-build</artifactId>
-  <version>0.0.8-SNAPSHOT</version>
+  <version>0.0.8</version>
   <packaging>pom</packaging>
 
   <name>Rose Build POM</name>
@@ -76,7 +76,7 @@
     <project.build.outputTimestamp>2025-06-18T14:12:39Z</project.build.outputTimestamp>
 
     <!-- Maven Plugins -->
-    <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
+    <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
     <flatten-maven-plugin.version>1.7.0</flatten-maven-plugin.version>
     <forbiddenapis.version>3.9</forbiddenapis.version>
     <git-commit-id-maven-plugin.version>4.9.9</git-commit-id-maven-plugin.version>
@@ -140,12 +140,12 @@
               <includes>
                 <include>**/*.md</include>
               </includes>
-              <flexmark />
+              <flexmark/>
             </markdown>
             <java>
-              <importOrder />
-              <removeUnusedImports />
-              <palantirJavaFormat />
+              <importOrder/>
+              <removeUnusedImports/>
+              <palantirJavaFormat/>
             </java>
             <pom>
               <!-- https://github.com/diffplug/spotless/blob/main/plugin-maven/README.md#maven-pom -->
@@ -329,8 +329,8 @@
               <requireJavaVersion>
                 <version>${java.version}</version>
               </requireJavaVersion>
-              <dependencyConvergence />
-              <banDuplicatePomDependencyVersions />
+              <dependencyConvergence/>
+              <banDuplicatePomDependencyVersions/>
             </rules>
           </configuration>
           <executions>
@@ -427,8 +427,6 @@
             <arguments>-Dmaven.javadoc.skip=true -DskipTests -DskipITs</arguments>
             <tagNameFormat>v@{project.version}</tagNameFormat>
             <scmCommentPrefix>[CI Skip]</scmCommentPrefix>
-            <updateWorkingCopyVersions>true</updateWorkingCopyVersions>
-            <pushChanges>false</pushChanges>
           </configuration>
         </plugin>
         <plugin>
