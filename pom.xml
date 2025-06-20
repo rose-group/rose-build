@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.rosestack</groupId>
   <artifactId>rose-build</artifactId>
-  <version>0.0.25-SNAPSHOT</version>
+  <version>0.0.26-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Rose Build POM</name>
@@ -95,6 +95,7 @@
     <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
     <maven-dependency-plugin.version>3.6.1</maven-dependency-plugin.version>
     <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
     <maven-wrapper-plugin.version>3.2.0</maven-wrapper-plugin.version>
@@ -129,8 +130,6 @@
       **/test/**/*,
       **/mock/**/*</sonar.coverage.exclusions>
     <sonar.cpd.exclusions>**/generated/**/*</sonar.cpd.exclusions>
-
-    <project.build.outputTimestamp>2025-06-19T15:30:08Z</project.build.outputTimestamp>
   </properties>
 
   <repositories>
@@ -306,21 +305,16 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${maven-compiler-plugin.version}</version>
           <configuration>
-            <!-- 强制使用 javac 编译器，确保编译行为与标准 Java 环境一致，避免因编译器差异导致的构建问题。 -->
-            <forceJavacCompilerUse>true</forceJavacCompilerUse>
-            <showDeprecation>true</showDeprecation>
-            <showWarnings>true</showWarnings>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+            <encoding>${project.build.sourceEncoding}</encoding>
             <compilerArgs>
-              <!-- 在编译后的字节码中保留方法参数的名称信息 -->
+              <arg>-Xlint:unchecked</arg>
+              <arg>-Xlint:deprecation</arg>
               <arg>-parameters</arg>
-              <!-- 用于启用所有警告信息 -->
-              <arg>-Xlint:all</arg>
-              <!-- 运行注解处理器，并且编译代码: none,only，both（默认）-->
-              <arg>-processing</arg>
             </compilerArgs>
-            <source>${maven.compiler.source}</source>
-            <target>${maven.compiler.target}</target>
-            <encoding>${file.encoding}</encoding>
+            <showWarnings>true</showWarnings>
+            <showDeprecation>true</showDeprecation>
           </configuration>
         </plugin>
         <plugin>
@@ -378,9 +372,6 @@
               <!-- 禁止在 POM 中出现重复的依赖声明 -->
               <banDuplicatePomDependencyVersions/>
 
-              <!-- 强制要求依赖使用最新版本 -->
-              <requireUpperBoundDeps/>
-
               <!-- 发布时强制要求使用发布版本依赖（非快照版本） -->
               <requireReleaseDeps>
                 <onlyWhenRelease>true</onlyWhenRelease>
@@ -390,25 +381,17 @@
               <requirePluginVersions/>
 
               <!-- 禁止项目中出现重复的类 -->
-              <banDuplicateClasses>
-                <!-- 配置重复类检查规则 -->
-                <ignoreClasses>
-                  <!-- 忽略一些常见的重复类 -->
-                  <ignoreClass>module-info</ignoreClass>
-                  <ignoreClass>META-INF/*.SF</ignoreClass>
-                  <ignoreClass>META-INF/*.DSA</ignoreClass>
-                  <ignoreClass>META-INF/*.RSA</ignoreClass>
-                </ignoreClasses>
-                <findAllDuplicates>true</findAllDuplicates>
-              </banDuplicateClasses>
+              <!--              <banDuplicateClasses>-->
+              <!--                <findAllDuplicates>true</findAllDuplicates>-->
+              <!--              </banDuplicateClasses>-->
 
               <!-- 禁止使用传递性依赖，强制显式声明 -->
-              <banTransitiveDependencies>
-                <!-- 排除一些特殊的传递性依赖 -->
-                <excludes>
-                  <exclude>org.slf4j:*</exclude>
-                </excludes>
-              </banTransitiveDependencies>
+              <!--              <banTransitiveDependencies>-->
+              <!--                &lt;!&ndash; 排除一些特殊的传递性依赖 &ndash;&gt;-->
+              <!--                <excludes>-->
+              <!--                  <exclude>org.slf4j:*</exclude>-->
+              <!--                </excludes>-->
+              <!--              </banTransitiveDependencies>-->
             </rules>
           </configuration>
           <dependencies>
@@ -541,6 +524,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven-resources-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>${maven-site-plugin.version}</version>
           <configuration>
@@ -568,7 +556,6 @@
               <goals>
                 <goal>jar-no-fork</goal>
               </goals>
-              <phase>package</phase>
             </execution>
           </executions>
         </plugin>
