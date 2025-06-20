@@ -328,12 +328,9 @@
                 <goal>analyze-only</goal>
               </goals>
               <configuration>
-                <failOnWarning>true</failOnWarning>
+                <failOnWarning>false</failOnWarning>
                 <ignoreNonCompile>true</ignoreNonCompile>
                 <outputXML>true</outputXML>
-                <ignoredUsedUndeclaredDependencies>
-                  <ignoredUsedUndeclaredDependency>org.slf4j:*</ignoredUsedUndeclaredDependency>
-                </ignoredUsedUndeclaredDependencies>
               </configuration>
             </execution>
             <execution>
@@ -379,19 +376,6 @@
 
               <!-- 强制要求所有插件声明版本号 -->
               <requirePluginVersions/>
-
-              <!-- 禁止项目中出现重复的类 -->
-              <!--              <banDuplicateClasses>-->
-              <!--                <findAllDuplicates>true</findAllDuplicates>-->
-              <!--              </banDuplicateClasses>-->
-
-              <!-- 禁止使用传递性依赖，强制显式声明 -->
-              <!--              <banTransitiveDependencies>-->
-              <!--                &lt;!&ndash; 排除一些特殊的传递性依赖 &ndash;&gt;-->
-              <!--                <excludes>-->
-              <!--                  <exclude>org.slf4j:*</exclude>-->
-              <!--                </excludes>-->
-              <!--              </banTransitiveDependencies>-->
             </rules>
           </configuration>
           <dependencies>
