@@ -103,7 +103,7 @@
     <sundrio-maven-plugin.version>0.103.1</sundrio-maven-plugin.version>
     <extra-enforcer-rules.version>1.7.0</extra-enforcer-rules.version>
     <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
-    <maven-install-plugin.version>3.1.2</maven-install-plugin.version>
+    <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
 
     <!-- 发布相关插件 -->
     <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
